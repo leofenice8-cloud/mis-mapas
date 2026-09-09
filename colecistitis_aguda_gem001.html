@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colecistitis Aguda - Infografía & Flashcards de Alto Rendimiento</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            medical: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Card Flip 3D Styles */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    
+    /* Smooth Transitions */
+    .card-inner {
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
+
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 font-black text-lg">
+          CA
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-bold text-white tracking-tight">Colecistitis Aguda</h1>
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">TG18 / WSES</span>
+          </div>
+          <p class="text-xs text-slate-400">MD TUTOR • Infografía Clínica & Flashcards de Alto Rendimiento</p>
+        </div>
+      </div>
+
+      <!-- Navigation tabs -->
+      <div class="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700/60 text-xs sm:text-sm">
+        <button id="tab-flashcards" onclick="switchView('flashcards')" class="px-3.5 py-1.5 rounded-lg font-medium transition-all flex items-center gap-2 bg-sky-600 text-white shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          Modo Flashcards
+        </button>
+        <button id="tab-infografia" onclick="switchView('infografia')" class="px-3.5 py-1.5 rounded-lg font-medium text-slate-300 hover:text-white transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          Infografía Resumen
+        </button>
+        <button id="tab-calculadora" onclick="switchView('calculadora')" class="px-3.5 py-1.5 rounded-lg font-medium text-slate-300 hover:text-white transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          Criterios Tokio (TG18)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    
+    <!-- Top notification banner -->
+    <div class="mb-6 p-4 rounded-2xl bg-gradient-to-r from-sky-950/60 via-indigo-950/40 to-slate-900 border border-sky-800/40 flex items-center justify-between flex-wrap gap-3">
+      <div class="flex items-center gap-3">
+        <span class="flex h-3 w-3 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+        </span>
+        <p class="text-xs sm:text-sm text-slate-200">
+          <strong class="text-sky-300">Regla de Oro:</strong> Sospecha con <span class="underline decoration-sky-400 font-semibold">Murphy (+) + Fiebre/PCR</span>. Confirmación con <span class="underline decoration-sky-400 font-semibold">Ecografía (Pared &gt;3mm)</span>. Manejo: Colecistectomía laparoscópica temprana (<72h).
+        </p>
+      </div>
+      <div class="text-xs text-slate-400 font-mono bg-slate-900/80 px-2.5 py-1 rounded-md border border-slate-700/60">
+        Nivel Evidencia 1a • Oxford CEBM
+      </div>
+    </div>
+
+    <!-- VIEW 1: FLASHCARDS INTERACTIVAS -->
+    <div id="view-flashcards" class="space-y-6">
+      <!-- Filter and Deck Controls -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider mr-1">Filtrar:</span>
+          <button onclick="filterCards('todos')" class="filter-btn active px-3 py-1 text-xs rounded-lg font-medium bg-sky-600 text-white transition-all">Todos (8)</button>
+          <button onclick="filterCards('dx')" class="filter-btn px-3 py-1 text-xs rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Diagnóstico</button>
+          <button onclick="filterCards('severidad')" class="filter-btn px-3 py-1 text-xs rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Severidad TG18</button>
+          <button onclick="filterCards('farmaco')" class="filter-btn px-3 py-1 text-xs rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Farmacología & Perú</button>
+          <button onclick="filterCards('quirurgico')" class="filter-btn px-3 py-1 text-xs rounded-lg font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Quirúrgico & Perlas</button>
+        </div>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+          <div class="text-xs text-slate-400">
+            Haz clic en la tarjeta o presiona <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-sky-400 border border-slate-700 text-[10px]">Espacio</kbd> para girar
+          </div>
+          <button onclick="flipAll()" class="text-xs font-medium text-sky-400 hover:text-sky-300 underline">
+            Voltear todas
+          </button>
+        </div>
+      </div>
+
+      <div id="flashcards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- FLASHCARD 1: Fisiopatología & Lisolecitina -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="dx">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-sky-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Fisiopatología Molecular</span>
+                  <span class="text-xs text-slate-500 font-mono">01 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">¿Cómo inicia la lesión en la Colecistitis Aguda y qué rol juega la Lisolecitina?</h3>
+                <p class="text-sm text-slate-400 line-clamp-4">
+                  El evento inicial no es bacteriano. Inicia como una cascada mecánica y bioquímica en la mucosa vesicular tras la impactación litiásica.
+                </p>
+              </div>
+
+              <div class="bg-slate-950/60 rounded-xl p-3 border border-slate-800/80">
+                <div class="flex items-center gap-2 text-xs text-amber-300 font-semibold mb-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                  Disparador Clave:
+                </div>
+                <p class="text-xs text-slate-300">Presión intraluminal > 20-30 cmH₂O + Fosfolipasa A₂ mucosa.</p>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Bioquímica</span>
+                <span class="text-sky-400 font-medium">Click para ver respuesta ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-amber-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-amber-400 uppercase tracking-wide">Cascada Fisiopatológica</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2.5">
+                  <li class="flex items-start gap-2">
+                    <span class="font-bold text-amber-400">1.</span>
+                    <span><strong>Obstrucción del cístico:</strong> Hiperpresión intraluminal que excede la presión de perfusión arteriolar de la mucosa (~25 mmHg).</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="font-bold text-amber-400">2.</span>
+                    <span><strong>Fosfolipasa A₂:</strong> El trauma mecánico de la pared activa fosfolipasa A₂ mucosal, convirtiendo fosfatidilcolina en <strong>lisolecitina</strong> (potente detergente citotóxico transmural).</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="font-bold text-amber-400">3.</span>
+                    <span><strong>COX-2 & Prostaglandinas:</strong> Síntesis masiva de PGE₂ y PGI₂ estimula hipersecreción de fluido, edema e isquemia mural.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="font-bold text-amber-400">4.</span>
+                    <span><strong>Sobreinfección Bacteriana secundaria (50-70%):</strong> <em>E. coli</em> (40%), <em>Klebsiella</em> (20%), <em>Enterococcus</em> (15%).</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-amber-300/90 font-mono bg-amber-950/30 p-2 rounded-lg">
+                💡 <span class="font-semibold">Perla:</span> En las primeras 24-48 horas es inflamación química; el AINE reduce la presión intraluminal al inhibir PGE₂.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 2: Criterios Diagnósticos de Tokio TG18 -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="dx">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-sky-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">Criterios de Tokio (TG18)</span>
+                  <span class="text-xs text-slate-500 font-mono">02 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">¿Cuáles son los Criterios Diagnósticos de Tokio TG18 para Sospecha y Confirmación?</h3>
+                <p class="text-sm text-slate-400">
+                  La tríada nemotécnica oficial A-B-C que estandariza el diagnóstico clínico en todo el mundo.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                  <span class="font-bold text-sky-400 block text-base">A</span>
+                  <span class="text-[11px] text-slate-400">Inflamación Local</span>
+                </div>
+                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                  <span class="font-bold text-amber-400 block text-base">B</span>
+                  <span class="text-[11px] text-slate-400">Inflamación Sistémica</span>
+                </div>
+                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                  <span class="font-bold text-emerald-400 block text-base">C</span>
+                  <span class="text-[11px] text-slate-400">Hallazgos Imagenológicos</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-sky-400"></span> Criterios Clínicos</span>
+                <span class="text-sky-400 font-medium">Click para ver fórmula ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-sky-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-sky-400 uppercase tracking-wide">Fórmula Diagnóstica TG18</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <div class="text-xs text-slate-300 space-y-2">
+                  <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                    <strong class="text-sky-300">A. Signos Locales:</strong>
+                    <p class="text-slate-400 mt-0.5">• Murphy (+) clínico o ecográfico<br>• Dolor, sensibilidad o masa palpable en CSD.</p>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                    <strong class="text-amber-300">B. Signos Sistémicos:</strong>
+                    <p class="text-slate-400 mt-0.5">• Fiebre (>38 °C)<br>• Leucocitosis (<4k o >10k/mm³) o PCR ≥ 3 mg/dL.</p>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-950 border border-slate-800">
+                    <strong class="text-emerald-300">C. Imágenes (Confirmación Multimodal: Eco, TC, RM, HIDA):</strong>
+                    <p class="text-slate-400 mt-0.5">
+                      • <strong>Engrosamiento mural:</strong> Pared vesicular &ge; 4 mm (o &gt; 3 mm).<br>
+                      • <strong>Sobredistensión / Tamaño:</strong> Eje longitudinal &gt; 8 cm o transversal &gt; 4 cm.<br>
+                      • <strong>Signos de estrés parietal:</strong> Líquido pericolecístico, lito impactado, o Murphy ecográfico (+).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-3 p-2 rounded-lg bg-sky-950/40 border border-sky-700/50 text-[11px] text-sky-200">
+                📌 <strong>Sospecha Diagnóstica:</strong> 1 ítem A + 1 ítem B.<br>
+                ✅ <strong>Diagnóstico Definitivo:</strong> 1 ítem A + 1 ítem B + C.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 3: Estratificación de Severidad TG18 -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="severidad">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-red-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">Severidad de Tokio (Grados)</span>
+                  <span class="text-xs text-slate-500 font-mono">03 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">¿Cómo clasificar la gravedad en Grado I (Leve), II (Moderada) y III (Grave)?</h3>
+                <p class="text-sm text-slate-400">
+                  La estratificación determina si el paciente puede entrar de urgencia a sala de operaciones o requiere UCI y colecistostomía percutánea.
+                </p>
+              </div>
+
+              <div class="space-y-1.5 text-xs">
+                <div class="flex items-center justify-between p-2 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-emerald-300">
+                  <span>Grado I (Leve)</span>
+                  <span class="text-[11px] font-mono">Inflamación local pura</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-lg bg-amber-950/30 border border-amber-800/40 text-amber-300">
+                  <span>Grado II (Moderada)</span>
+                  <span class="text-[11px] font-mono">>18k Leucos / >72h / Gangrena</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-lg bg-rose-950/30 border border-rose-800/40 text-rose-300">
+                  <span>Grado III (Grave)</span>
+                  <span class="text-[11px] font-mono">Disfunción multiorgánica</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-rose-400"></span> Disfunción Orgánica</span>
+                <span class="text-sky-400 font-medium">Ver 6 criterios Grado III ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-rose-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-rose-400 uppercase tracking-wide">Fallas Orgánicas Grado III (TG18)</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <ul class="text-xs text-slate-300 space-y-1.5">
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-rose-300">Cardiovascular:</strong> Hipotensión refractaria que requiere Dopamina ≥5 mcg/kg/min o Noradrenalina/Adrenalina.
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-rose-300">Neurológico:</strong> Disminución de consciencia (Glasgow &lt;15).
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-rose-300">Respiratorio:</strong> PaO₂ / FiO₂ &lt; 300.
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-rose-300">Renal:</strong> Oliguria o Creatinina sérica &gt; 2.0 mg/dL.
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-rose-300">Hepático:</strong> PT-INR &gt; 1.5.
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-rose-300">Hematológico:</strong> Plaquetas &lt; 100,000 / mm³.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="mt-2 text-[11px] text-rose-200 bg-rose-950/40 p-1.5 rounded border border-rose-800/40 font-mono">
+                ⚠️ Cumplir <strong>solo 1</strong> de estos ya lo convierte en Grado III.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 4: Imagenología y Signos Ecográficos ("L-I-T-O") -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="dx">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Imagenología Multimodal (Eco, TC, RM, HIDA)</span>
+                  <span class="text-xs text-slate-500 font-mono">04 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">¿Cuáles son las 4 modalidades diagnósticas y las dimensiones críticas de distensión?</h3>
+                <p class="text-sm text-slate-400">
+                  La ecografía es la 1.ª línea, pero la TC, Colangio-RM y Gammagrafía HIDA tienen indicaciones precisas en complicaciones y duda diagnóstica.
+                </p>
+              </div>
+
+              <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                <span class="text-xs text-slate-400 uppercase tracking-widest font-mono">Criterio de Tamaño & Distensión</span>
+                <p class="text-lg font-black text-emerald-400 tracking-wider mt-1">&gt; 8 cm long / &gt; 4 cm transverso</p>
+                <span class="text-[11px] text-slate-500">Mnemotecnia Ecográfica: L - I - T - O</span>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Multimodal</span>
+                <span class="text-sky-400 font-medium">Ver las 4 pruebas de imagen ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-emerald-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wide">Modalidades Imagenológicas (TG18/WSES)</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2">
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-emerald-300">1. Ultrasonografía (1.ª línea):</strong> S: 81%, E: 83%. Signo de Murphy ecográfico (+), pared &gt;3 mm (doble halo), <strong>vesícula hidrópica (&gt;8x4 cm)</strong> y cálculo en cuello con sombra acústica.
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-emerald-300">2. Tomografía Computarizada (TC):</strong> Indispensable para descartar <strong>complicaciones</strong> (isquemia mural con falta de realce en fase venosa, gas intramural en colecistitis enfisematosa, absceso pericolecístico y perforación).
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-emerald-300">3. Colangio-Resonancia (CPRM / RM):</strong> Muy sensible para edema transmural (halo hiperintenso en T2). Método no invasivo de elección para descartar coledocolitiasis asociada, en gestantes o alergia al contraste yodado.
+                  </li>
+                  <li class="p-1.5 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-emerald-300">4. Gammagrafía HIDA (Tc-99m):</strong> <em>Gold Standard</em> funcional (>95% S/E). El radiofármaco excreta al duodeno pero <strong>no ingresa a la vesícula a los 60 min</strong> por obstrucción del conducto cístico.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="mt-2 text-[10px] text-slate-400 font-mono text-center">
+                TG18 valida Ecografía, TC y RM dentro del Criterio C confirmatorio.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 5: Manejo Farmacológico y Disponibilidad en Perú -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="farmaco">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-cyan-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Farmacoterapia & Dosis</span>
+                  <span class="text-xs text-slate-500 font-mono">05 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Esquemas Antibióticos empíricos por severidad y su disponibilidad en Perú</h3>
+                <p class="text-sm text-slate-400">
+                  Manejo antimicrobiano dirigido a enterobacterias gramnegativas y anaerobios según grado TG18.
+                </p>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5 text-xs">
+                <div class="flex justify-between text-slate-300">
+                  <span>Grado I:</span>
+                  <span class="text-cyan-400 font-medium">Ceftriaxona + Metronidazol</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>Grado II:</span>
+                  <span class="text-cyan-400 font-medium">Ampicilina/Sulbactam o Ceftriaxona</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>Grado III:</span>
+                  <span class="text-cyan-400 font-medium">Piperacilina/Tazobactam</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> Petitorio Nacional Perú</span>
+                <span class="text-sky-400 font-medium">Ver dosis y viales ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-cyan-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-cyan-400 uppercase tracking-wide">Dosificación & Presentaciones Perú</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <div class="text-xs space-y-2 text-slate-300">
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-cyan-300">Ceftriaxona:</strong> 1 - 2 g IV cada 24h.
+                    <p class="text-slate-400 text-[11px]">(Perú: Frasco ampolla de 1 g polvo para inyección). Alta concentración biliar activa.</p>
+                  </div>
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-cyan-300">Metronidazol:</strong> 500 mg IV cada 8h.
+                    <p class="text-slate-400 text-[11px]">(Perú: Frasco infusión 500 mg/100 mL). Cobertura contra <em>B. fragilis</em>.</p>
+                  </div>
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-cyan-300">Piperacilina / Tazobactam:</strong> 4.5 g IV c/6-8h en infusión extendida de 3-4h.
+                    <p class="text-slate-400 text-[11px]">(Perú: Vial 4 g / 0.5 g). Antipseudomónico para Grado III o intrahospitalario.</p>
+                  </div>
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-cyan-300">Rescate en Alergias Graves:</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">• <strong>Alergia a Penicilinas:</strong> Ciprofloxacino 400 mg IV c/12h + Metronidazol 500 mg c/8h o Aztreonam 1-2 g c/8h.<br>• <strong>Alergia a AINEs:</strong> Paracetamol 1 g IV c/6-8h + Tramadol 50-100 mg IV lento.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-2 text-[10px] text-cyan-300/80 font-mono bg-cyan-950/30 p-1.5 rounded">
+                Dato: AINEs son primera línea analgésica por reducir directamente la síntesis de PGE2 intraluminal.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 6: Cirugía & Visión Crítica de Seguridad (Strasberg) -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="quirurgico">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-purple-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">Manejo Quirúrgico</span>
+                  <span class="text-xs text-slate-500 font-mono">06 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">¿Cuándo operar y cuáles son los 3 criterios de la "Visión Crítica de Seguridad"?</h3>
+                <p class="text-sm text-slate-400">
+                  La técnica quirúrgica estandarizada para evitar la catastrófica lesión iatrogénica de la vía biliar principal (VB).
+                </p>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-around text-center">
+                <div>
+                  <span class="text-xs text-slate-400 block">Timing Ideal:</span>
+                  <span class="text-sm font-bold text-purple-400">&lt; 72 Horas</span>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div>
+                  <span class="text-xs text-slate-400 block">Principio Mandatorio:</span>
+                  <span class="text-sm font-bold text-purple-400">Strasberg (CVS)</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-400"></span> Técnica Quirúrgica</span>
+                <span class="text-sky-400 font-medium">Ver 3 criterios de Strasberg ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-purple-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-purple-400 uppercase tracking-wide">Visión Crítica de Seguridad (CVS)</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2">
+                  <li class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-purple-300">1. Triángulo Hepatocístico libre:</strong> Disección completa del triángulo de Calot eliminando todo el tejido adiposo y fibroso (no es necesario exponer el colédoco).
+                  </li>
+                  <li class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-purple-300">2. Separación del fondo de la placa cística:</strong> El tercio inferior de la vesícula se despega por completo del lecho hepático.
+                  </li>
+                  <li class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-purple-300">3. Solamente dos estructuras entran a la vesícula:</strong> Visualización indudable de solo la arteria cística y el conducto cístico.
+                  </li>
+                </ul>
+              </div>
+
+              <div class="mt-2 p-2 rounded bg-purple-950/40 border border-purple-800/40 text-[11px] text-purple-200">
+                🛑 <strong>¿Plastrón hostil o congelado?</strong> Detenerse y convertir a Colecistectomía Subtotal (fenestrada o reconstituyente) para evitar ligadura del colédoco.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 7: Diagnósticos Diferenciales & Tríadas -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="dx">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-yellow-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">Diagnóstico Diferencial</span>
+                  <span class="text-xs text-slate-500 font-mono">07 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Colecistitis vs Colangitis vs Íleo Biliar: ¿Cómo no confundirlas?</h3>
+                <p class="text-sm text-slate-400">
+                  Revisión rápida de la Tríada de Charcot, Péntada de Reynolds y la Tríada de Rigler.
+                </p>
+              </div>
+
+              <div class="space-y-2 text-xs">
+                <div class="p-2 bg-slate-950 rounded-lg border border-slate-800 flex justify-between">
+                  <span class="text-slate-400">Charcot:</span>
+                  <span class="text-yellow-400 font-semibold">Dolor + Fiebre + Ictericia</span>
+                </div>
+                <div class="p-2 bg-slate-950 rounded-lg border border-slate-800 flex justify-between">
+                  <span class="text-slate-400">Reynolds:</span>
+                  <span class="text-yellow-400 font-semibold">Charcot + Shock + Confusión</span>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-400"></span> Tríadas de Examen</span>
+                <span class="text-sky-400 font-medium">Ver diferenciación clave ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-yellow-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-yellow-400 uppercase tracking-wide">Diferenciación de Emergencia</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <ul class="text-xs text-slate-300 space-y-2">
+                  <li class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-yellow-300">Charcot & Reynolds (Colangitis Aguda):</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">• Charcot: Dolor CSD + Fiebre + Ictericia franca (BT &gt; 4).<br>• Reynolds: Charcot + Shock séptico + Confusión/depresión SNC.</p>
+                  </li>
+                  <li class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-yellow-300">Íleo Biliar (Tríada de Rigler):</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">1. Neumobilia (gas en vía biliar) + 2. Obstrucción de intestino delgado + 3. Lito ectópico radioopaco en fosa ilíaca derecha.</p>
+                  </li>
+                  <li class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-yellow-300">Tríada de Saint & Tríada de Murphy:</strong>
+                    <p class="text-slate-400 text-[11px] mt-0.5">• <strong>Saint:</strong> Colelitiasis + Hernia hiatal + Diverticulosis colónica.<br>• <strong>Murphy (Apendicitis):</strong> Dolor epigástrico periumbilical que migra a FID + Náuseas/vómitos + Fiebre.</p>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="mt-2 text-[10px] text-yellow-300 bg-yellow-950/30 p-1.5 rounded font-mono">
+                💡 En colecistitis aislada, la BT suele ser &lt; 2-3 mg/dL. Si supera 4, sospechar coledocolitiasis o Sx Mirizzi.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FLASHCARD 8: Perlas Clínicas de Pase de Visita (High-Yield) -->
+        <div class="card-container perspective-1000 h-[430px]" data-category="quirurgico">
+          <div class="card-inner relative w-full h-full transform-style-3d cursor-pointer rounded-2xl shadow-xl transition-all duration-500" onclick="toggleCard(this)">
+            
+            <!-- Front Face -->
+            <div class="absolute inset-0 backface-hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between hover:border-pink-500/50 transition-colors">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-pink-500/10 text-pink-400 border border-pink-500/20">Perlas de Visita Médica</span>
+                  <span class="text-xs text-slate-500 font-mono">08 / 08</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">3 Secretos Clínicos que todo interno y residente debe dominar</h3>
+                <p class="text-sm text-slate-400">
+                  Casos atípicos en diabéticos, la falacia de "enfriar el cuadro" y el ensayo clínico CHOCOLATE.
+                </p>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1">
+                <p class="flex items-center gap-2"><span class="text-pink-400">✔</span> Ancianos / Diabéticos sin fiebre</p>
+                <p class="flex items-center gap-2"><span class="text-pink-400">✔</span> Cirugía temprana vs diferida</p>
+                <p class="flex items-center gap-2"><span class="text-pink-400">✔</span> El estudio CHOCOLATE (BMJ 2018)</p>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-500 border-t border-slate-800/60 pt-3">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-pink-400"></span> High-Yield</span>
+                <span class="text-sky-400 font-medium">Leer perlas clínicas ➔</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="absolute inset-0 backface-hidden rotate-y-180 bg-slate-900 border border-pink-500/40 rounded-2xl p-6 flex flex-col justify-between overflow-y-auto">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-pink-400 uppercase tracking-wide">Pase de Visita Quirúrgica</span>
+                  <span class="text-xs text-slate-400">Reverso</span>
+                </div>
+                <div class="text-xs space-y-2 text-slate-300">
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-pink-300">1. Presentación Atípica en DM y Seniles:</strong> Hasta el 30% debuta sin fiebre ni dolor manifiesto; debutan con descompensación glucémica, alteración del sensorio o sepsis silente.
+                  </div>
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-pink-300">2. "Enfriar el cuadro" es historia:</strong> La evidencia Nivel 1a (Cochrane, WSES) sepultó el manejo diferido clásico de 6 semanas; operar en la misma hospitalización disminuye estancia, costos y recidivas graves.
+                  </div>
+                  <div class="p-2 rounded bg-slate-950 border border-slate-800">
+                    <strong class="text-pink-300">3. El ensayo CHOCOLATE (BMJ):</strong> En pacientes críticos de alto riesgo, la colecistectomía laparoscópica superó a la colecistostomía percutánea en morbilidad grave (12% vs 65%). La colecistostomía es de rescate selecto.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-2 text-[10px] text-slate-400 text-center font-mono">
+                "Operar en ventana óptima salva lechos biliares".
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 2: INFOGRAFÍA RESUMEN EJECUTIVO -->
+    <div id="view-infografia" class="hidden space-y-8">
+      
+      <!-- Banner Cabecera de la Infografía -->
+      <div class="bg-gradient-to-br from-slate-900 via-sky-950/40 to-slate-900 p-6 sm:p-8 rounded-3xl border border-sky-800/40 relative overflow-hidden shadow-2xl">
+        <div class="max-w-3xl">
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30 uppercase tracking-wider">Flashcard Ejecutiva</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3 tracking-tight">Colecistitis Aguda: Guía Visual Integrada</h2>
+          <p class="text-slate-300 text-sm sm:text-base mt-2 leading-relaxed">
+            Consenso Tokio TG18 / WSES 2020. Síndrome inflamatorio agudo iniciado por hiperpresión y toxicidad por lisolecitina, con indicación quirúrgica laparoscópica temprana.
+          </p>
+        </div>
+      </div>
+
+      <!-- SECCIÓN NUEVA: PRINCIPALES CAUSAS ETIOLÓGICAS -->
+      <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          Etiología & Principales Causas de Colecistitis Aguda
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-bold text-amber-400 text-sm">1. Litiásica (90 - 95%)</span>
+              <span class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500/20 text-amber-300 font-mono">Frecuente</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Impactación persistente de un cálculo (80% colesterol, 20% pigmentarios) en el infundíbulo (bolsa de Hartmann) o conducto cístico. Desencadena hiperpresión y toxicidad química por lisolecitina.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-bold text-rose-400 text-sm">2. Alitiásica (5 - 10%)</span>
+              <span class="px-2 py-0.5 text-[10px] rounded-full bg-rose-500/20 text-rose-300 font-mono">Grave</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Típica de pacientes críticos en UCI: politraumatizados, quemados graves, shock o NPT prolongada. Fisiopatología por isquemia esplácnica microvascular, hiperviscosidad biliar y estasis vesicular. Alta tasa de gangrena (&gt;50%).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-bold text-purple-400 text-sm">3. Enfisematosa (1 - 2%)</span>
+              <span class="px-2 py-0.5 text-[10px] rounded-full bg-purple-500/20 text-purple-300 font-mono">Urgencia</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Predominio en varones ancianos diabéticos (hasta 70%). Infección por bacterias formadoras de gas (<em>Clostridium perfringens</em>, <em>E. coli</em>). Gas demonstrable en pared o luz por TC/Rx. Mortalidad elevada (15-25%).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-bold text-sky-400 text-sm">4. Obstructivas Raras (&lt;1%)</span>
+              <span class="px-2 py-0.5 text-[10px] rounded-full bg-sky-500/20 text-sky-300 font-mono">Especiales</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Oclusión extrínseca o intrínseca del cístico por neoplasias (adenocarcinoma vesicular, colangiocarcinoma, metástasis), parásitos (*Ascaris lumbricoides*), torsión/vólvulo vesicular o vasculitis sistémicas (PAN).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN NUEVA: CUADRO RESUMEN HISTORIA NATURAL (LEAVELL Y CLARK) -->
+      <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          Historia Natural de la Colecistitis Aguda (Modelo de Leavell y Clark)
+        </h3>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider bg-slate-950/60">
+                <th class="py-3 px-3 w-1/4">Período</th>
+                <th class="py-3 px-3 w-1/2">Eventos Fisiopatológicos & Clínicos</th>
+                <th class="py-3 px-3 w-1/4">Niveles de Prevención</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+              <tr class="hover:bg-slate-800/20">
+                <td class="py-3 px-3 font-semibold text-sky-300 align-top">
+                  1. Período Prepatogénico
+                  <span class="block text-[10px] text-slate-500 font-normal">Antes de la interacción lesiva</span>
+                </td>
+                <td class="py-3 px-3 text-[11px] leading-relaxed">
+                  • <strong>Tríada ecológica:</strong> Huésped con factores de riesgo "4F" (*Female, Forty, Fat, Fertile*), ayuno prolongado, diabetes.<br>
+                  • <strong>Agente:</strong> Bilis sobresaturada de colesterol o estasis.<br>
+                  • <strong>Ambiente:</strong> Dietas hipercalóricas, sedentarismo, pérdida abrupta de peso.
+                </td>
+                <td class="py-3 px-3 text-[11px] align-top">
+                  <span class="text-sky-400 font-semibold block mb-0.5">Prevención Primaria:</span>
+                  Promoción de hábitos dietéticos saludables, control ponderal gradual. Colecistectomía profiláctica solo en vesícula en porcelana o cálculos &gt;3 cm.
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/20">
+                <td class="py-3 px-3 font-semibold text-amber-300 align-top">
+                  2. Período Patogénico
+                  <span class="block text-[10px] text-slate-500 font-normal">Fase subclínica, de estado y complicaciones</span>
+                </td>
+                <td class="py-3 px-3 text-[11px] leading-relaxed space-y-1">
+                  <p>• <strong>Subclínica/Latencia:</strong> Impactación intermitente sin necrosis ni hiperpresión crítica (&lt;20 cmH₂O).</p>
+                  <p>• <strong>Prodrómica:</strong> Cólico biliar persistente (&gt;4-6 h), síntesis mucosal de lisolecitina y PGE₂.</p>
+                  <p>• <strong>Fase de Estado:</strong> Murphy (+), dolor continuo en CSD, fiebre, pared &gt;3 mm, edema submucoso.</p>
+                  <p>• <strong>Complicaciones:</strong> Gangrena focal por isquemia microvascular, perforación (absceso vs peritonitis biliar), fístula biliodigestiva.</p>
+                </td>
+                <td class="py-3 px-3 text-[11px] align-top">
+                  <span class="text-amber-400 font-semibold block mb-0.5">Prevención Secundaria:</span>
+                  • <strong>Diagnóstico precoz:</strong> TG18 + Ecografía abdominal bedside.<br>
+                  • <strong>Tratamiento oportuno:</strong> Colecistectomía laparoscópica temprana (&lt;72h) y antibioticoterapia para limitar el daño tisular.
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-800/20">
+                <td class="py-3 px-3 font-semibold text-rose-300 align-top">
+                  3. Período Pospatogénico
+                  <span class="block text-[10px] text-slate-500 font-normal">Desenlaces y secuelas</span>
+                </td>
+                <td class="py-3 px-3 text-[11px] leading-relaxed">
+                  • <strong>Resolución:</strong> Curación quirúrgica completa sin secuelas anatómicas.<br>
+                  • <strong>Secuelas crónicas:</strong> Estenosis iatrogénica de vía biliar, fístula colecistocólica, síndrome postcolecistectomía.<br>
+                  • <strong>Muerte:</strong> Sepsis no controlada, shock distributivo y disfunción multiorgánica (Grado III).
+                </td>
+                <td class="py-3 px-3 text-[11px] align-top">
+                  <span class="text-rose-400 font-semibold block mb-0.5">Prevención Terciaria:</span>
+                  Rehabilitación física post-UCI, seguimiento endoscópico/quirúrgico de lesiones de vía biliar (hepaticoyeyunostomía en Y de Roux), soporte nutricional.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Fisiopatología Visual en 4 pasos -->
+      <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          Secuencia Patogénica Molecular
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 relative">
+            <span class="absolute top-3 right-3 text-2xl font-black text-slate-800">01</span>
+            <div class="text-xs font-bold text-sky-400 mb-1">Impactación Cística</div>
+            <p class="text-xs text-slate-300">Cálculo oclusivo en bacinete genera hiperpresión intraluminal vesicular sostenida (&gt;20-30 cmH₂O).</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 relative">
+            <span class="absolute top-3 right-3 text-2xl font-black text-slate-800">02</span>
+            <div class="text-xs font-bold text-amber-400 mb-1">Lisolecitina Tóxica</div>
+            <p class="text-xs text-slate-300">Fosfolipasa A₂ mucosal transforma fosfatidilcolina biliar en lisolecitina (detergente citolítico tisular).</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 relative">
+            <span class="absolute top-3 right-3 text-2xl font-black text-slate-800">03</span>
+            <div class="text-xs font-bold text-rose-400 mb-1">Isquemia & Edema</div>
+            <p class="text-xs text-slate-300">Liberación masiva de COX-2, PGE₂ y PGI₂. Edema submucoso que colapsa la microcirculación venosa.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800/80 relative">
+            <span class="absolute top-3 right-3 text-2xl font-black text-slate-800">04</span>
+            <div class="text-xs font-bold text-emerald-400 mb-1">Invasión Bacteriana</div>
+            <p class="text-xs text-slate-300">A las 48-72h proliferan <em>E. coli</em>, <em>Klebsiella</em> y <em>Enterococcus</em>, arriesgando gangrena y perforación.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Criterios Tokio TG18 -->
+        <div class="lg:col-span-1 bg-slate-900/80 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Algoritmo TG18 (A-B-C)
+            </h3>
+            
+            <div class="space-y-3 text-xs">
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="font-bold text-sky-400 block mb-0.5">A. Signos Locales</span>
+                <span class="text-slate-300">• Murphy (+) clínico o ecográfico.<br>• Masa o dolor localizado en CSD.</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="font-bold text-amber-400 block mb-0.5">B. Signos Sistémicos</span>
+                <span class="text-slate-300">• Fiebre &gt; 38 °C.<br>• Leucocitos &lt; 4k o &gt; 10k o PCR ≥ 3 mg/dL.</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                <span class="font-bold text-emerald-400 block mb-0.5">C. Hallazgo Imagenológico (Eco / TC / RM / HIDA)</span>
+                <span class="text-slate-300">
+                  • Pared &ge; 4 mm (o &gt; 3mm) con doble halo.<br>
+                  • <strong>Distensión:</strong> Eje long &gt; 8 cm o transverso &gt; 4 cm.<br>
+                  • Cálculo impactado, líquido pericolecístico o falta de captación en HIDA.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
+            <span class="text-sky-300 font-semibold">Sospecha:</span> 1A + 1B<br>
+            <span class="text-emerald-300 font-semibold">Confirmación:</span> 1A + 1B + C
+          </div>
+        </div>
+
+        <!-- Tabla de Severidad y Conducta -->
+        <div class="lg:col-span-2 bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+          <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            Estratificación de Severidad & Conducta Inmediata
+          </h3>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-slate-400 uppercase text-[10px] tracking-wider">
+                  <th class="py-2.5 px-3">Grado</th>
+                  <th class="py-2.5 px-3">Criterios TG18</th>
+                  <th class="py-2.5 px-3">Antibioticoterapia</th>
+                  <th class="py-2.5 px-3">Acción Quirúrgica</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-3 px-3 font-bold text-emerald-400 whitespace-nowrap">Grado I (Leve)</td>
+                  <td class="py-3 px-3">Inflamación local limitada sin disfunción de órganos.</td>
+                  <td class="py-3 px-3 text-[11px]">Ceftriaxona 1-2g + Metronidazol 500mg IV</td>
+                  <td class="py-3 px-3 font-semibold text-sky-400">Colecistectomía laparoscópica temprana (&lt;72h)</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-3 px-3 font-bold text-amber-400 whitespace-nowrap">Grado II (Moderada)</td>
+                  <td class="py-3 px-3">Leucos &gt;18k, masa CSD, evolución &gt;72h, gangrena local.</td>
+                  <td class="py-3 px-3 text-[11px]">Ampicilina/Sulbactam 3g c/6h o Ceftriaxona/Metro</td>
+                  <td class="py-3 px-3 font-semibold text-amber-400">Colecistectomía por cirujano experimentado</td>
+                </tr>
+                <tr class="hover:bg-slate-800/30">
+                  <td class="py-3 px-3 font-bold text-rose-400 whitespace-nowrap">Grado III (Grave)</td>
+                  <td class="py-3 px-3">Falla orgánica: Shock con vasopresor, PaO₂/FiO₂&lt;300, Cr&gt;2, INR&gt;1.5, Plaq&lt;100k.</td>
+                  <td class="py-3 px-3 text-[11px]">Piperacilina/Tazobactam 4.5g c/6h o Meropenem 1g</td>
+                  <td class="py-3 px-3 font-semibold text-rose-400">Manejo en UCI; si no apto: Colecistostomía Percutánea</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SECCIÓN NUEVA: TRÍADAS Y PÉNTADAS DIFERENCIALES QUIRÚRGICAS -->
+      <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          Panel de Tríadas y Péntadas Quirúrgicas Clásicas (Diagnósticos Diferenciales)
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <!-- Charcot -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-yellow-500/20 text-yellow-300 font-mono uppercase">Colangitis Aguda</span>
+            <h4 class="text-sm font-bold text-white mt-1 mb-1">Tríada de Charcot</h4>
+            <ul class="text-slate-300 text-[11px] space-y-1">
+              <li>1. <strong>Dolor</strong> en hipocondrio derecho / CSD.</li>
+              <li>2. <strong>Fiebre</strong> intermitente con escalofríos en espiga.</li>
+              <li>3. <strong>Ictericia</strong> marcada con hiperbilirrubinemia directa.</li>
+            </ul>
+            <p class="text-[10px] text-yellow-400/90 mt-2 pt-2 border-t border-slate-800 font-mono">Presente en 50-70% de colangitis. Requiere drenaje biliar.</p>
+          </div>
+
+          <!-- Reynolds -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-500/20 text-rose-300 font-mono uppercase">Colangitis Supurativa Grave</span>
+            <h4 class="text-sm font-bold text-white mt-1 mb-1">Péntada de Reynolds</h4>
+            <ul class="text-slate-300 text-[11px] space-y-1">
+              <li>• <strong>Tríada de Charcot completa</strong> (Dolor + Fiebre + Ictericia).</li>
+              <li>4. <strong>Shock / Hipotensión</strong> sistémica refractaria.</li>
+              <li>5. <strong>Confusión mental</strong> / Deterioro neurológico (SNC).</li>
+            </ul>
+            <p class="text-[10px] text-rose-400/90 mt-2 pt-2 border-t border-slate-800 font-mono">Mortalidad &gt;30%. Indicación de CPRE o drenaje de emergencia.</p>
+          </div>
+
+          <!-- Rigler -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-purple-500/20 text-purple-300 font-mono uppercase">Fístula Colecistoentérica</span>
+            <h4 class="text-sm font-bold text-white mt-1 mb-1">Tríada de Rigler (Íleo Biliar)</h4>
+            <ul class="text-slate-300 text-[11px] space-y-1">
+              <li>1. <strong>Neumobilia</strong> (gas intravascular o en vía biliar).</li>
+              <li>2. <strong>Obstrucción de intestino delgado</strong> (niveles hidroaéreos).</li>
+              <li>3. <strong>Cálculo ectópico radioopaco</strong> (frecuente en válvula ileocecal).</li>
+            </ul>
+            <p class="text-[10px] text-purple-400/90 mt-2 pt-2 border-t border-slate-800 font-mono">Rx/TC diagnóstica en ancianos con dolor y vómitos fecaloideos.</p>
+          </div>
+
+          <!-- Saint -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-sky-500/20 text-sky-300 font-mono uppercase">Asociación Anatómica</span>
+            <h4 class="text-sm font-bold text-white mt-1 mb-1">Tríada de Saint</h4>
+            <ul class="text-slate-300 text-[11px] space-y-1">
+              <li>1. <strong>Colelitiasis</strong> (cálculos vesiculares sintomáticos).</li>
+              <li>2. <strong>Hernia hiatal</strong> por deslizamiento.</li>
+              <li>3. <strong>Diverticulosis colónica</strong> (habitual en sigmoides).</li>
+            </ul>
+            <p class="text-[10px] text-sky-400/90 mt-2 pt-2 border-t border-slate-800 font-mono">Asociación idiopática vinculada a déficit de fibra y elastina en ancianos.</p>
+          </div>
+
+          <!-- Murphy Apendicitis -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-300 font-mono uppercase">Apendicitis Aguda</span>
+            <h4 class="text-sm font-bold text-white mt-1 mb-1">Tríada Cronológica de Murphy</h4>
+            <ul class="text-slate-300 text-[11px] space-y-1">
+              <li>1. <strong>Dolor abdominal</strong> inicial en epigastrio que migra a FID.</li>
+              <li>2. <strong>Náuseas y/o vómitos</strong> secundarios al estímulo vagal.</li>
+              <li>3. <strong>Fiebre o febrícula</strong> tardía.</li>
+            </ul>
+            <p class="text-[10px] text-emerald-400/90 mt-2 pt-2 border-t border-slate-800 font-mono">Diferencial clave si el apéndice es subhepático alto o retrocecal.</p>
+          </div>
+
+          <!-- Borchardt -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/20 text-amber-300 font-mono uppercase">Vólvulo Gástrico</span>
+            <h4 class="text-sm font-bold text-white mt-1 mb-1">Tríada de Borchardt</h4>
+            <ul class="text-slate-300 text-[11px] space-y-1">
+              <li>1. <strong>Dolor y distensión epigástrica</strong> severa y repentina.</li>
+              <li>2. <strong>Arcadas constantes</strong> e infructuosas (sin vómito eficaz).</li>
+              <li>3. <strong>Imposibilidad para pasar sonda nasogástrica (SNG).</strong></li>
+            </ul>
+            <p class="text-[10px] text-amber-400/90 mt-2 pt-2 border-t border-slate-800 font-mono">Emergencia que simula colecistitis complicada o perforación gástrica.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          Panel Multimodal de Imágenes: Criterio C Ampliado (TG18 / WSES / ACR Appropriateness)
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">1.ª Línea Obligada</span>
+              <span class="text-[10px] text-slate-500 font-mono">Sens 81% / Esp 83%</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Ecografía Abdominal</h4>
+            <p class="text-slate-300 font-mono text-[11px] mb-2">Método de cabecera / Bedside</p>
+            <ul class="text-slate-400 text-[11px] space-y-1 mb-2 leading-relaxed">
+              <li>• <strong>Murphy ecográfico:</strong> Signo más específico (dolor directo bajo transductor).</li>
+              <li>• <strong>Pared:</strong> &gt;3 mm con edema trilaminar / doble halo.</li>
+              <li>• <strong>Distensión:</strong> Eje largo &gt;8 cm, eje corto &gt;4 cm.</li>
+              <li>• <strong>Lito fijo:</strong> Sombra acústica en infundíbulo.</li>
+            </ul>
+            <div class="text-[10px] text-emerald-300 bg-emerald-950/40 p-1.5 rounded border border-emerald-800/40">
+              💡 Rápida, no invasiva y sin radiación ionizante.
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold text-sky-400 uppercase tracking-widest">Complicaciones</span>
+              <span class="text-[10px] text-slate-500 font-mono">Sens 85% / Esp 90%</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Tomografía Computarizada (TC)</h4>
+            <p class="text-slate-300 font-mono text-[11px] mb-2">Con contraste endovenoso</p>
+            <ul class="text-slate-400 text-[11px] space-y-1 mb-2 leading-relaxed">
+              <li>• <strong>Gangrena:</strong> Defecto focal o ausencia de realce de la pared vesicular.</li>
+              <li>• <strong>Enfisematosa:</strong> Gas en la pared o lumen sin fístula previa.</li>
+              <li>• <strong>Perforación:</strong> Absceso pericolecístico, líquido libre o defecto parietal.</li>
+              <li>• <strong>Estrías:</strong> Infiltración inflamatoria de la grasa pericolecística.</li>
+            </ul>
+            <div class="text-[10px] text-sky-300 bg-sky-950/40 p-1.5 rounded border border-sky-800/40">
+              ⚡ De elección en abdomen agudo quirúrgico y duda diagnóstica.
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold text-purple-400 uppercase tracking-widest">Vía Biliar & Gestantes</span>
+              <span class="text-[10px] text-slate-500 font-mono">Sens 88% / Esp 89%</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Colangio-RM / CPRM</h4>
+            <p class="text-slate-300 font-mono text-[11px] mb-2">Sin radiación / T2 pesado</p>
+            <ul class="text-slate-400 text-[11px] space-y-1 mb-2 leading-relaxed">
+              <li>• <strong>Edema de pared:</strong> Hiperintensidad brillante en T2 transmural.</li>
+              <li>• <strong>Coledocolitiasis concomitante:</strong> Defecto de repleción en árbol biliar (S &gt;95%).</li>
+              <li>• <strong>Población especial:</strong> Elección en gestantes y alergia a contrastes iodados.</li>
+              <li>• <strong>Distensión:</strong> Mapeo exacto del conducto cístico.</li>
+            </ul>
+            <div class="text-[10px] text-purple-300 bg-purple-950/40 p-1.5 rounded border border-purple-800/40">
+              🧲 Máxima definición de anatomía ductal hepatobiliar.
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Gold Standard Funcional</span>
+              <span class="text-[10px] text-slate-500 font-mono">Sens &gt;95% / Esp ~90%</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Gammagrafía HIDA</h4>
+            <p class="text-slate-300 font-mono text-[11px] mb-2">Tc-99m Mebrofenina / DISIDA</p>
+            <ul class="text-slate-400 text-[11px] space-y-1 mb-2 leading-relaxed">
+              <li>• <strong>Patrón positivo:</strong> Vesícula NO se visualiza a los 60 min.</li>
+              <li>• <strong>Confirmación:</strong> Captación hepática y excreción duodenal preservadas.</li>
+              <li>• <strong>Mecanismo:</strong> Prueba funcional directa de la obstrucción del conducto cístico.</li>
+              <li>• <strong>Utilidad:</strong> Casos atípicos, alitiásica o ecografía no concluyente.</li>
+            </ul>
+            <div class="text-[10px] text-amber-300 bg-amber-950/40 p-1.5 rounded border border-amber-800/40">
+              ☢️ Examen funcional de referencia diagnóstica máxima.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
+        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+          Manejo Farmacológico Integrado (Disponibilidad Farmacológica en Perú)
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block mb-1">Cefalosporina 3G</span>
+            <h4 class="text-sm font-bold text-white mb-1">Ceftriaxona</h4>
+            <p class="text-slate-300 font-mono mb-2">1 - 2 g IV cada 24 horas</p>
+            <p class="text-slate-400 text-[11px] mb-2 leading-relaxed">Alta penetración en vía biliar activa (%T > CIM). Eliminación 40% hepatobiliar.</p>
+            <div class="text-[10px] text-cyan-300 bg-cyan-950/40 p-1.5 rounded border border-cyan-800/40">
+              🇵🇪 <strong>Perú:</strong> Fco. vial 1 g polvo liofilizado (Petitorio EsSalud/MINSA).
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block mb-1">Nitroimidazol</span>
+            <h4 class="text-sm font-bold text-white mb-1">Metronidazol</h4>
+            <p class="text-slate-300 font-mono mb-2">500 mg IV cada 8 horas</p>
+            <p class="text-slate-400 text-[11px] mb-2 leading-relaxed">Antianaerobio estricto (*B. fragilis*). Ruptura por radicales libres.</p>
+            <div class="text-[10px] text-cyan-300 bg-cyan-950/40 p-1.5 rounded border border-cyan-800/40">
+              🇵🇪 <strong>Perú:</strong> Frasco ampolla de infusión 500 mg / 100 mL.
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block mb-1">Antipseudomónico</span>
+            <h4 class="text-sm font-bold text-white mb-1">Piperacilina / Tazobactam</h4>
+            <p class="text-slate-300 font-mono mb-2">4.5 g IV c/6h infusión 3-4h</p>
+            <p class="text-slate-400 text-[11px] mb-2 leading-relaxed">Para Grado III, nosocomial o sospecha de multirresistencia.</p>
+            <div class="text-[10px] text-cyan-300 bg-cyan-950/40 p-1.5 rounded border border-cyan-800/40">
+              🇵🇪 <strong>Perú:</strong> Frasco vial 4 g / 0.5 g (Uso restringido en UCI/UTI).
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block mb-1">Analgesia Anti-PGE2</span>
+            <h4 class="text-sm font-bold text-white mb-1">Ketorolaco / Metamizol</h4>
+            <p class="text-slate-300 font-mono mb-2">Ketorolaco 30mg / Metamizol 1-2g</p>
+            <p class="text-slate-400 text-[11px] mb-2 leading-relaxed">AINE de elección por reducir presión intraluminal al frenar COX-2.</p>
+            <div class="text-[10px] text-cyan-300 bg-cyan-950/40 p-1.5 rounded border border-cyan-800/40">
+              🇵🇪 <strong>Perú:</strong> Ketorolaco amp 30mg/1mL; Metamizol amp 1g/2mL.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PROTOCOLO DE RESCATE EN ALERGIA A PENICILINAS Y ALERGIA A AINES -->
+        <div class="mt-6 p-4 rounded-2xl bg-slate-950 border border-rose-800/40">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-300 uppercase tracking-wider font-mono">Manejo Especial</span>
+            <h4 class="text-xs font-bold text-rose-300 uppercase tracking-wider">Protocolo de Rescate: Alergia a Penicilinas/Betalactámicos & Alergia a AINEs</h4>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <!-- Bloque Alergia a Betalactámicos -->
+            <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="font-bold text-amber-300 flex items-center gap-1.5 mb-1.5 text-xs">
+                ⚠️ Alergia Severa a Penicilinas / Anafilaxia (IgE mediada)
+              </span>
+              <ul class="text-slate-300 space-y-1.5 text-[11px] leading-relaxed">
+                <li>
+                  • <strong>Régimen A (Fluoroquinolona + Metronidazol):</strong> 
+                  <strong class="text-white">Ciprofloxacino</strong> 400 mg IV c/12h + <strong class="text-white">Metronidazol</strong> 500 mg IV c/8h. 
+                  <span class="text-slate-400 block text-[10px]">(Perú: Ciprofloxacino fco. infusión 200 mg/100 mL; Metronidazol fco. 500 mg/100 mL).</span>
+                </li>
+                <li>
+                  • <strong>Régimen B (Monobactámico para Grado II/III o Gramnegativos):</strong> 
+                  <strong class="text-white">Aztreonam</strong> 1 - 2 g IV c/8h + <strong class="text-white">Metronidazol</strong> 500 mg IV c/8h ± <strong class="text-white">Vancomicina</strong> 15-20 mg/kg c/12h si se cubre <em>Enterococcus</em>. Sin reactividad cruzada con penicilinas.
+                </li>
+                <li>
+                  • <strong>Régimen C (Alternativa en Sepsis Abdominal):</strong> 
+                  <strong class="text-white">Amikacina</strong> 15 mg/kg IV cada 24h + Metronidazol 500 mg IV c/8h. (Monitorizar función renal).
+                </li>
+              </ul>
+            </div>
+
+            <!-- Bloque Alergia o Contraindicación a AINEs -->
+            <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+              <span class="font-bold text-sky-300 flex items-center gap-1.5 mb-1.5 text-xs">
+                🛡️ Alergia a AINEs, Asma sensible a aspirina (Widal) o ERC
+              </span>
+              <ul class="text-slate-300 space-y-1.5 text-[11px] leading-relaxed">
+                <li>
+                  • <strong>1.ª Línea No-AINE:</strong> 
+                  <strong class="text-white">Paracetamol (Acetaminofén)</strong> 1 g IV cada 6 - 8 horas (dosis máxima: 4 g/día). 
+                  <span class="text-slate-400 block text-[10px]">(Perú: Frasco vial de solución para perfusión 1 g / 100 mL, Petitorio EsSalud/MINSA). Excelente perfil renal y gástrico.</span>
+                </li>
+                <li>
+                  • <strong>Opioide Débil Coadyuvante:</strong> 
+                  <strong class="text-white">Tramadol</strong> 50 - 100 mg IV lento en 100 mL NaCl 0.9% c/8h. 
+                  <span class="text-slate-400 block text-[10px]">(Perú: Ampollas de 50 mg/1 mL y 100 mg/2 mL). Asociar antiemético (Ondansetrón 4-8 mg IV).</span>
+                </li>
+                <li>
+                  • <strong>Opioide Fuerte en Dolor Intratable:</strong> 
+                  <strong class="text-white">Morfina</strong> 2 - 4 mg IV en bolos lentos titulados o Fentanilo 25 - 50 mcg IV. <em>(Mito clínico: El espasmo del esfínter de Oddi no tiene relevancia clínica que justifique negar analgesia potente en dolor agudo).</em>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VIEW 3: CALCULADORA INTERACTIVA DE CRITERIOS DE TOKIO (TG18) -->
+    <div id="view-calculadora" class="hidden space-y-6">
+      <div class="bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl">
+        <div class="max-w-2xl mb-6">
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-400/30 uppercase tracking-wider">Herramienta Clínica</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mt-2">Calculadora & Clasificador de Severidad (TG18)</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Marca los hallazgos presentes en el paciente para determinar el diagnóstico de certeza y el grado de severidad según las guías internacionales.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Bloque A -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <h4 class="text-xs font-bold text-sky-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+              <span>A. Signos Locales</span>
+              <span class="text-[10px] font-mono text-slate-500">Mínimo 1</span>
+            </h4>
+            <div class="space-y-2.5 text-xs text-slate-300">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-a1" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+                <span>Signo de Murphy positivo (clínico o ecográfico)</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-a2" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+                <span>Dolor o hipersensibilidad en CSD</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-a3" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-sky-500 focus:ring-0">
+                <span>Masa palpable dolorosa en CSD</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Bloque B -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+              <span>B. Signos Sistémicos</span>
+              <span class="text-[10px] font-mono text-slate-500">Mínimo 1</span>
+            </h4>
+            <div class="space-y-2.5 text-xs text-slate-300">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-b1" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+                <span>Fiebre (> 38.0 °C)</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-b2" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+                <span>Leucocitosis (&lt;4,000 o &gt;10,000/mm³)</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-b3" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0">
+                <span>Proteína C Reactiva (PCR) ≥ 3 mg/dL</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Bloque C -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+              <span>C. Imagenología (Eco / TC / RM / HIDA)</span>
+              <span class="text-[10px] font-mono text-slate-500">Confirmación</span>
+            </h4>
+            <div class="space-y-2.5 text-xs text-slate-300">
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-c1" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+                <span>Engrosamiento de pared vesicular &ge; 4 mm (o &gt; 3 mm)</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-c2" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+                <span>Distensión / Tamaño: Eje longitudinal &gt; 8 cm o transversal &gt; 4 cm</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-c3" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+                <span>Líquido pericolecístico, doble halo o estriación de grasa en TC</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                <input type="checkbox" id="calc-c4" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-0">
+                <span>Cálculo impactado en cuello / Ausencia de llenado en Gammagrafía HIDA</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Criterios de Severidad Avanzados -->
+        <div class="mt-6 p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+          <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider mb-3">
+            Criterios de Mayor Gravedad (Marcar si alguno está presente)
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-slate-300">
+            <label class="flex items-start gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="calc-g2-1" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-0">
+              <span>Leucocitos &gt; 18,000 / mm³ (Grado II)</span>
+            </label>
+            <label class="flex items-start gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="calc-g2-2" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-0">
+              <span>Duración de síntomas &gt; 72 horas (Grado II)</span>
+            </label>
+            <label class="flex items-start gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="calc-g2-3" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-500 focus:ring-0">
+              <span>Gangrena / Absceso / Peritonitis biliar (Grado II)</span>
+            </label>
+            <label class="flex items-start gap-2 cursor-pointer select-none sm:col-span-2 lg:col-span-3">
+              <input type="checkbox" id="calc-g3" onchange="runCalculator()" class="mt-0.5 rounded bg-slate-900 border-slate-700 text-rose-600 focus:ring-0">
+              <span class="text-rose-300 font-semibold">Cualquier disfunción de órgano: Hipotensión con vasopresores, Glasgow &lt;15, PaO₂/FiO₂ &lt;300, Creatinina &gt;2, INR &gt;1.5 o Plaquetas &lt;100k (Grado III)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Output Result Box -->
+        <div id="calc-result-box" class="mt-6 p-5 rounded-2xl bg-slate-900 border border-slate-800 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <div class="text-xs text-slate-500 uppercase font-mono tracking-wider">Estado Diagnóstico TG18</div>
+            <div id="calc-status" class="text-lg font-bold text-slate-300 mt-0.5">Selecciona los criterios clínicos del paciente</div>
+            <div id="calc-recommendation" class="text-xs text-slate-400 mt-1">Completa los campos para generar la recomendación quirúrgica y antibiótica.</div>
+          </div>
+          <button onclick="resetCalculator()" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all">
+            Reiniciar
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-900/60 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p>Diseñado para uso académico, preparación de pases de visita médica y exámenes de Residentado Médico.</p>
+      <p class="font-mono text-[11px] text-slate-600">Fuentes: Tokyo Guidelines 2018 (TG18) • WSES 2020 • Cochrane Systematic Reviews • Petitorio Nacional EsSalud/MINSA (Perú)</p>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Container -->
+  <div id="toast" class="fixed bottom-4 right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 border border-sky-500/50 text-white px-4 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-2">
+    <span id="toast-icon">ℹ️</span>
+    <span id="toast-message">Mensaje</span>
+  </div>
+
+  <script>
+    // Toggle single card flip
+    function toggleCard(cardInner) {
+      const container = cardInner.closest('.card-container');
+      container.classList.toggle('flipped');
+    }
+
+    // Flip all cards
+    let allFlipped = false;
+    function flipAll() {
+      allFlipped = !allFlipped;
+      const containers = document.querySelectorAll('.card-container');
+      containers.forEach(c => {
+        if (allFlipped) {
+          c.classList.add('flipped');
+        } else {
+          c.classList.remove('flipped');
+        }
+      });
+      showToast(allFlipped ? "Todas las tarjetas volteadas" : "Tarjetas en posición frontal");
+    }
+
+    // Keyboard shortcut to flip first visible card or current focus
+    document.addEventListener('keydown', function(e) {
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+        e.preventDefault();
+        const activeView = document.getElementById('view-flashcards');
+        if (!activeView.classList.contains('hidden')) {
+          const visibleCards = Array.from(document.querySelectorAll('.card-container')).filter(c => c.style.display !== 'none');
+          if (visibleCards.length > 0) {
+            visibleCards[0].classList.toggle('flipped');
+          }
+        }
+      }
+    });
+
+    // Filtering flashcards by category
+    function filterCards(category) {
+      // Update buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-sky-600', 'text-white');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+      event.target.classList.add('bg-sky-600', 'text-white');
+      event.target.classList.remove('bg-slate-800', 'text-slate-300');
+
+      // Filter containers
+      const cards = document.querySelectorAll('.card-container');
+      cards.forEach(card => {
+        if (category === 'todos' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // View switcher tabs
+    function switchView(viewName) {
+      const views = ['flashcards', 'infografia', 'calculadora'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        const tab = document.getElementById(`tab-${v}`);
+        if (v === viewName) {
+          el.classList.remove('hidden');
+          tab.classList.add('bg-sky-600', 'text-white', 'shadow-sm');
+          tab.classList.remove('text-slate-300');
+        } else {
+          el.classList.add('hidden');
+          tab.classList.remove('bg-sky-600', 'text-white', 'shadow-sm');
+          tab.classList.add('text-slate-300');
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Interactive TG18 Calculator Logic
+    function runCalculator() {
+      const a = document.getElementById('calc-a1').checked || 
+                document.getElementById('calc-a2').checked || 
+                document.getElementById('calc-a3').checked;
+
+      const b = document.getElementById('calc-b1').checked || 
+                document.getElementById('calc-b2').checked || 
+                document.getElementById('calc-b3').checked;
+
+      const c = document.getElementById('calc-c1').checked || 
+                document.getElementById('calc-c2').checked || 
+                document.getElementById('calc-c3').checked ||
+                document.getElementById('calc-c4').checked;
+
+      const isG3 = document.getElementById('calc-g3').checked;
+      const isG2 = document.getElementById('calc-g2-1').checked || 
+                   document.getElementById('calc-g2-2').checked || 
+                   document.getElementById('calc-g2-3').checked;
+
+      const statusEl = document.getElementById('calc-status');
+      const recEl = document.getElementById('calc-recommendation');
+      const box = document.getElementById('calc-result-box');
+
+      // Diagnosis status
+      if (a && b && c) {
+        // Confirmed
+        if (isG3) {
+          statusEl.innerHTML = '<span class="text-rose-400 font-black">DIAGNÓSTICO CONFIRMADO: Colecistitis Aguda GRADO III (Grave)</span>';
+          recEl.innerHTML = '🚨 <strong>Conducta:</strong> Ingreso prioritario a UCI/UTI. Iniciar soporte de falla orgánica (vasopresores, intubación si PaO2/FiO2<300). Iniciar antibióticos IV de amplio espectro (Piperacilina/Tazobactam 4.5g c/6h o Meropenem 1g). Si el riesgo quirúrgico es prohibitivo, realizar <strong>Colecistostomía Percutánea</strong> de rescate tras estabilización.';
+          box.className = "mt-6 p-5 rounded-2xl bg-rose-950/30 border border-rose-600/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+        } else if (isG2) {
+          statusEl.innerHTML = '<span class="text-amber-400 font-black">DIAGNÓSTICO CONFIRMADO: Colecistitis Aguda GRADO II (Moderada)</span>';
+          recEl.innerHTML = '⚠️ <strong>Conducta:</strong> Iniciar Ceftriaxona 2g + Metronidazol 500mg IV (o Ampicilina/Sulbactam). Programar <strong>Colecistectomía Laparoscópica Temprana</strong> a cargo de un cirujano experimentado debido al elevado riesgo de plastrón o gangrena vesicular.';
+          box.className = "mt-6 p-5 rounded-2xl bg-amber-950/30 border border-amber-600/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+        } else {
+          statusEl.innerHTML = '<span class="text-emerald-400 font-black">DIAGNÓSTICO CONFIRMADO: Colecistitis Aguda GRADO I (Leve)</span>';
+          recEl.innerHTML = '✅ <strong>Conducta:</strong> Reposo digestivo (NPO), hidratación vigorosa con cristaloides y analgesia (Ketorolaco/Metamizol). Iniciar Ceftriaxona 1-2g + Metronidazol 500mg IV. <strong>Colecistectomía Laparoscópica Precoz (&lt;72 horas)</strong> en la misma hospitalización.';
+          box.className = "mt-6 p-5 rounded-2xl bg-emerald-950/30 border border-emerald-600/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+        }
+      } else if (a && b) {
+        statusEl.innerHTML = '<span class="text-sky-400 font-bold">SOSPECHA DIAGNÓSTICA (TG18)</span>';
+        recEl.innerHTML = 'Presenta signos locales (A) + signos sistémicos (B). Se requiere <strong>Ecografía Abdominal urgente (C)</strong> para confirmación de certeza de engrosamiento parietal o litiasis impactada.';
+        box.className = "mt-6 p-5 rounded-2xl bg-sky-950/30 border border-sky-600/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+      } else {
+        statusEl.innerHTML = '<span class="text-slate-300 font-medium">Criterios Insuficientes para Colecistitis Aguda</span>';
+        recEl.innerHTML = 'No cumple con la combinación 1A + 1B. Considere diagnósticos diferenciales: cólico biliar simple, gastritis aguda, úlcera péptica, hepatitis o pancreatitis.';
+        box.className = "mt-6 p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4";
+      }
+    }
+
+    // Reset Calculator inputs
+    function resetCalculator() {
+      const checkboxes = document.querySelectorAll('#view-calculadora input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.checked = false);
+      runCalculator();
+      showToast("Calculadora reiniciada");
+    }
+
+    // Lightweight custom toast alert
+    function showToast(message, icon = "ℹ️") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+      
+      toastMsg.innerText = message;
+      toastIcon.innerText = icon;
+      toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+      
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
