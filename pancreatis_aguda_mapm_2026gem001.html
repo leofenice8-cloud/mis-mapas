@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Mental Integral e Interactivo: Pancreatitis Aguda (IAP/APA 2025 & iLATAM 2026)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- D3.js v7 CDN -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              900: '#7c2d12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom canvas and SVG styling */
+    body {
+      background-color: #090d16;
+      color: #f1f5f9;
+      overflow: hidden;
+    }
+    
+    .node circle {
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    
+    .node text {
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .link {
+      fill: none;
+      stroke-opacity: 0.45;
+      stroke-width: 1.6px;
+      transition: all 0.3s ease;
+    }
+
+    .link:hover {
+      stroke-opacity: 0.9;
+      stroke-width: 2.5px;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* Pulse animation for root node */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-effect {
+      animation: pulse-ring 3s infinite ease-in-out;
+      transform-origin: center;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col font-sans select-none antialiased">
+
+  <!-- HEADER & TOOLBAR -->
+  <header class="h-14 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 flex items-center justify-between z-30 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-amber-500/20">
+        PA
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-1.5">
+            Mapa Mental: Pancreatitis Aguda
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">IAP/APA 2025 & iLATAM-AP 2026</span>
+          </h1>
+        </div>
+        <p class="text-[11px] text-slate-400 hidden sm:block">Arquitectura Clínica, Fisiopatología, Criterios Diagnósticos, Guía WATERFALL & Abordaje Escalonado</p>
+      </div>
+    </div>
+
+    <!-- CONTROLS & ACTIONS -->
+    <div class="flex items-center gap-2">
+      <!-- Search Input -->
+      <div class="relative w-44 sm:w-64">
+        <svg class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="searchInput" placeholder="Buscar término, fármaco, escala..." oninput="handleSearch(this.value)" class="w-full bg-slate-950/80 border border-slate-700/80 rounded-lg pl-8 pr-7 py-1 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all font-sans">
+        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs">✕</button>
+      </div>
+
+      <!-- Quick Zoom Controls -->
+      <div class="flex items-center bg-slate-800/80 rounded-lg p-0.5 border border-slate-700">
+        <button onclick="zoomStep(1.25)" title="Acercar (+)" class="p-1.5 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        </button>
+        <button onclick="zoomStep(0.8)" title="Alejar (-)" class="p-1.5 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+        </button>
+        <button onclick="resetZoom()" title="Centrar y Ajustar" class="p-1.5 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+        </button>
+      </div>
+
+      <!-- Depth Toggle Menu -->
+      <div class="hidden md:flex items-center bg-slate-800/80 rounded-lg p-0.5 border border-slate-700 text-[11px]">
+        <button onclick="collapseToLevel(1)" class="px-2 py-1 rounded-md text-slate-300 hover:text-white hover:bg-slate-700">Ramas</button>
+        <button onclick="collapseToLevel(2)" class="px-2 py-1 rounded-md text-slate-300 hover:text-white hover:bg-slate-700">Nivel 2</button>
+        <button onclick="expandAllNodes()" class="px-2 py-1 rounded-md text-amber-400 hover:bg-slate-700 font-semibold">Expandir Todo</button>
+      </div>
+
+      <!-- Markmap Code Modal Button -->
+      <button onclick="openMarkmapModal()" title="Ver código Markmap Markdown" class="px-2.5 py-1 rounded-lg bg-amber-600/20 text-amber-300 border border-amber-500/30 hover:bg-amber-600/30 text-xs font-semibold flex items-center gap-1.5 transition-all">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+        <span>Markmap MD</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="flex-1 relative flex overflow-hidden">
+    
+    <!-- D3 Interactive Tree Container -->
+    <div id="mindmap-container" class="flex-1 h-full w-full relative bg-[#070b14] cursor-grab active:cursor-grabbing">
+      <svg id="mindmap-svg" class="w-full h-full block"></svg>
+
+      <!-- Search results badge / instruction badge -->
+      <div id="statusBadge" class="absolute bottom-4 left-4 pointer-events-none bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Haz clic en los nodos para expandir/contraer o ver detalles clínicos. Arrastra para moverte y usa la rueda para hacer zoom.</span>
+      </div>
+    </div>
+
+    <!-- DETAIL INSPECTOR DRAWER -->
+    <aside id="detailDrawer" class="w-80 sm:w-96 lg:w-[420px] bg-slate-900/95 border-l border-slate-800 backdrop-blur-xl h-full flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out z-40 absolute right-0 top-0 shadow-2xl">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div class="flex items-center gap-2">
+          <span id="drawerBadge" class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-md bg-amber-500/20 text-amber-300 border border-amber-400/30">Detalle Clínico</span>
+          <span id="drawerOxford" class="text-[10px] font-mono text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">CEBM 1a</span>
+        </div>
+        <button onclick="closeDrawer()" class="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-5 space-y-4 text-xs">
+        <div>
+          <h2 id="drawerTitle" class="text-base font-bold text-white tracking-tight leading-snug">Título del Nodo</h2>
+          <p id="drawerSubtitle" class="text-slate-400 text-xs mt-0.5 font-medium">Subtítulo o contexto temático</p>
+        </div>
+
+        <div id="drawerContent" class="space-y-3 text-slate-300 leading-relaxed">
+          <!-- Dynamically filled with detailed clinical pearl, doses, guidelines -->
+        </div>
+
+        <div id="drawerPeruDose" class="hidden p-3 rounded-xl bg-slate-950 border border-slate-800">
+          <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block mb-1">Disponibilidad Farmacológica en Perú 🇵🇪</span>
+          <p id="drawerPeruText" class="text-[11px] text-slate-300 font-mono"></p>
+        </div>
+
+        <div id="drawerCitation" class="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-[11px] text-slate-400 space-y-1">
+          <span class="font-semibold text-slate-300 block">Fuente Guía:</span>
+          <span id="drawerCitationText">IAP/APA Guidelines 2025 / Guías iLATAM-AP 2026 / Ensayo WATERFALL</span>
+        </div>
+      </div>
+
+      <div class="p-3 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between text-[11px] text-slate-400">
+        <span>Presiona <kbd class="px-1 py-0.5 bg-slate-800 rounded border border-slate-700 text-amber-400 text-[10px]">ESC</kbd> para cerrar</span>
+        <button onclick="closeDrawer()" class="text-amber-400 hover:text-amber-300 font-medium">Cerrar Inspector</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- MARKMAP CODE MODAL -->
+  <div id="markmapModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 w-full max-w-3xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            Código Markdown estructurado para Markmap
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">Listo para copiar</span>
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">Puedes pegar este código en <a href="https://markmap.js.org/repl" target="_blank" class="text-amber-400 hover:underline">markmap.js.org/repl</a> para generar mapas interactivos vectoriales en cualquier navegador.</p>
+        </div>
+        <button onclick="closeMarkmapModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+
+      <div class="p-4 flex-1 overflow-y-auto">
+        <pre id="markmapCodeArea" class="bg-slate-950 p-4 rounded-xl text-xs font-mono text-slate-300 border border-slate-800/80 overflow-x-auto selection:bg-amber-600 selection:text-white"></pre>
+      </div>
+
+      <div class="p-3 border-t border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <span id="copyToast" class="text-xs text-emerald-400 font-semibold opacity-0 transition-opacity">¡Copiado al portapapeles exitosamente!</span>
+        <div class="flex items-center gap-2">
+          <button onclick="copyMarkmapCode()" class="px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold shadow-md transition-all">
+            Copiar Código Markdown
+          </button>
+          <button onclick="closeMarkmapModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Complete Comprehensive Data Tree for Acute Pancreatitis (IAP/APA 2025 & iLATAM 2026)
+    const mindmapData = {
+      name: "PANCREATITIS AGUDA",
+      badge: "Núcleo Clínico",
+      color: "#f59e0b",
+      category: "root",
+      details: {
+        title: "Pancreatitis Aguda (PA) - Enfoque 2025/2026",
+        subtitle: "Trastorno inflamatorio agudo del parénquima y retroperitoneo",
+        oxford: "CEBM 1a",
+        citation: "IAP/APA Guidelines 2025 • Guías iLATAM-AP 2026 • Consenso Atlanta Revisado",
+        html: `
+          <p>La <strong>Pancreatitis Aguda</strong> es un proceso inflamatorio estéril desencadenado inicialmente por activación enzimática intracelular aberrante en las células acinares pancreáticas.</p>
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1 my-2">
+            <strong class="text-amber-300 block">Reglas de Oro Clínicas:</strong>
+            <p>1. Diagnóstico confirmado con <strong>al menos 2 de los 3 criterios de Atlanta</strong>.</p>
+            <p>2. Tomografía (TCCIV) indicada a las <strong>72 a 96 horas</strong> (no de madrugada al ingreso).</p>
+            <p>3. Resucitación moderada guiada por objetivos con <strong>Ringer Lactato a 1.5 mL/kg/h</strong> (Ensayo WATERFALL).</p>
+            <p>4. <strong>Proscrita la profilaxis antibiótica</strong> en ausencia de infección demostrada.</p>
+          </div>
+        `
+      },
+      children: [
+        // RAMA 1: DEFINICIÓN Y MORFOLOGÍA
+        {
+          name: "1. Definición & Morfología",
+          badge: "Atlanta / IAP",
+          color: "#38bdf8",
+          category: "clasificacion",
+          details: {
+            title: "Clasificación Morfológica Tomográfica",
+            subtitle: "Atlanta Revisada y Guías Globales IAP/APA 2025",
+            oxford: "CEBM 1a",
+            citation: "Banks et al., Gut 2013; IAP/APA Guidelines, Pancreatology 2025",
+            html: `
+              <p>La clasificación morfológica depende de los hallazgos en la Tomografía Computarizada con Contraste Intravenoso (TCCIV) en fase pancreática y venosa portal (72-96h).</p>
+              <ul class="list-disc pl-4 space-y-1 mt-2 text-slate-300">
+                <li><strong>Pancreatitis Edematosa Intersticial (80-85%):</strong> Realce homogéneo del parénquima; edema peripancreático leve. Curso clínico autolimitado y benigno.</li>
+                <li><strong>Pancreatitis Necrosante (15-20%):</strong> Áreas hipodensas sin captación de contraste (>30 mm o >30% del volumen glandular). Puede subdividirse en necrosis parenquimatosa pura (5%), peripancreática pura (20%) o combinada (75-80%).</li>
+              </ul>
+            `
+          },
+          children: [
+            {
+              name: "Edematosa Intersticial (80-85%)",
+              badge: "Frecuente",
+              color: "#38bdf8",
+              details: {
+                title: "Pancreatitis Edematosa Intersticial",
+                subtitle: "80 - 85% de la casuística global",
+                oxford: "CEBM 1b",
+                citation: "IAP/APA Guidelines 2025",
+                html: "<p>Microcirculación preservada, realce homogéneo con contraste y ausencia de restos tisulares necróticos. La resolución clínica se produce habitualmente en la primera semana sin secuelas anatómicas.</p>"
+              }
+            },
+            {
+              name: "Pancreatitis Necrosante (15-20%)",
+              badge: "Alta Mortalidad",
+              color: "#f43f5e",
+              details: {
+                title: "Pancreatitis Necrosante",
+                subtitle: "Necrosis parenquimatosa y/o peripancreática",
+                oxford: "CEBM 1a",
+                citation: "Consenso Atlanta Revisado / iLATAM-AP 2026",
+                html: `
+                  <p>Mortalidad del 15% si es estéril, elevándose al 30-40% si sufre sobreinfección secundaria.</p>
+                  <p class="mt-2"><strong>Estados microbiológicos:</strong></p>
+                  <p>• <em>Necrosis Estéril:</em> Manejo médico conservador estricto (NO operar, NO drenar de rutina).</p>
+                  <p>• <em>Necrosis Infectada:</em> Gatillo formal para antibioterapia dirigida y desbridamiento escalonado (<em>Step-Up Approach</em>).</p>
+                `
+              },
+              children: [
+                { name: "Necrosis Estéril (Conservador)" },
+                { name: "Necrosis Infectada (Step-Up)" }
+              ]
+            }
+          ]
+        },
+
+        // RAMA 2: ETIOLOGÍA
+        {
+          name: "2. Etiología (I-GET-SMASHED)",
+          badge: "Causas",
+          color: "#fb923c",
+          category: "etiologia",
+          details: {
+            title: "Etiología y Factores de Riesgo",
+            subtitle: "Mnemotecnia clínica clásica y perfiles epidemiológicos",
+            oxford: "CEBM 1a",
+            citation: "Guías iLATAM-AP 2026; UEG Journal",
+            html: `
+              <p>Más del 80% de los casos en Ibero-Latinoamérica corresponden a las causas <strong>biliar</strong> y <strong>etílica</strong>.</p>
+              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 mt-2 space-y-1">
+                <p>• <strong>Biliar (40-50%):</strong> Cálculo impactado o paso de microlitiasis por ampolla de Vater. ALT > 150 UI/L otorga VPP > 95%.</p>
+                <p>• <strong>Etílica (25-35%):</strong> Consumo >50 g/día por más de 5 años.</p>
+                <p>• <strong>Hipertrigliceridemia (5-10%):</strong> Triglicéridos > 1,000 mg/dL (11.3 mmol/L).</p>
+                <p>• <strong>Iatrogénica / Post-CPRE (2-10%):</strong> Profilaxis con AINE intrarrectal (Indometacina 100 mg).</p>
+              </div>
+            `
+          },
+          children: [
+            {
+              name: "Litiásica / Biliar (40-50%)",
+              badge: "Causa #1",
+              details: {
+                title: "Etiología Biliar",
+                subtitle: "Paso u obstrucción por microcálculos / barro",
+                oxford: "CEBM 1a",
+                citation: "IAP/APA 2025 Guidelines",
+                html: "<p>El paso transitorio de cálculos genera reflujo de bilis o hipertensión ductal con aumento del Ca²⁺ citosólico. La colecistectomía en la misma hospitalización previene recurrencias en un 25% a 30 días.</p>"
+              }
+            },
+            {
+              name: "Etílica / Tóxica (25-35%)",
+              badge: "Causa #2",
+              details: {
+                title: "Etiología Etílica",
+                subtitle: "Citotoxicidad por metabolitos de etanol (FAEE)",
+                oxford: "CEBM 2a",
+                citation: "Saluja et al., Gastroenterology",
+                html: "<p>Los ésteres etílicos de ácidos grasos (FAEE) desestabilizan las membranas de lisosomas y zimógenos, promoviendo la activación intracelular de tripsina y sensibilizando a la colecistoquinina (CCK).</p>"
+              }
+            },
+            {
+              name: "Hipertrigliceridemia (>1000 mg/dL)",
+              badge: "Grave",
+              details: {
+                title: "Hipertrigliceridemia Severa",
+                subtitle: "Lipotoxicidad por Ácidos Grasos Libres (AGL)",
+                oxford: "CEBM 2b",
+                citation: "de Pretis et al., Am J Gastroenterol",
+                html: "<p>Concentraciones séricas de TG >1000 mg/dL generan micelas de ácidos grasos libres degradados por lipasa en lecho microvascular, provocando isquemia capilar y trombosis acinar.</p>"
+              }
+            },
+            {
+              name: "Post-CPRE / Fármacos / Genética",
+              badge: "Miscelánea",
+              details: {
+                title: "Causas Menos Frecuentes",
+                subtitle: "Iatrogenia, mutaciones y toxicidad farmacológica",
+                oxford: "CEBM 2b",
+                citation: "iLATAM-AP 2026",
+                html: "<p>• <strong>Post-CPRE:</strong> Prevenida con Indometacina rectal 100 mg + stent pancreático.<br>• <strong>Fármacos:</strong> Azatioprina, 6-MP, didanosina, valproato, tiazidas.<br>• <strong>Genética:</strong> Mutaciones en <em>PRSS1</em> (ganancia de función de tripsinógeno) y <em>SPINK1</em>.</p>"
+              }
+            }
+          ]
+        },
+
+        // RAMA 3: FISIOPATOLOGÍA MOLECULAR
+        {
+          name: "3. Fisiopatología Molecular",
+          badge: "Mecanismo",
+          color: "#a855f7",
+          category: "fisiopatologia",
+          details: {
+            title: "Cascada Molecular y Biológica Acinar",
+            subtitle: "Del flujo anormal de calcio al SIRS y fuga capilar",
+            oxford: "CEBM 1a",
+            citation: "Gorelick et al., Nat Rev Dis Primers 2023",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p><strong>1. Sobrecarga de Ca²⁺ citosólico:</strong> Salida masiva desde el retículo endoplásmico por estímulo tóxico.</p>
+                <p><strong>2. Co-localización:</strong> Fusión anómala de gránulos de zimógeno con lisosomas que contienen catepsina B.</p>
+                <p><strong>3. Activación de Tripsina:</strong> La catepsina B escinde el tripsinógeno en tripsina activa, desbordando al inhibidor SPINK1.</p>
+                <p><strong>4. Necroptosis & DAMPs:</strong> Muerte acinar programada (RIPK1/RIPK3/MLKL) y liberación de HMGB1 y ADN libre.</p>
+                <p><strong>5. Tormenta de Citoquinas:</strong> Activación de macrófagos vía TLR4/NF-κB liberando TNF-α, IL-1β e IL-6 que provocan fuga capilar a tercer espacio.</p>
+              </div>
+            `
+          },
+          children: [
+            { name: "Sobrecarga de Ca²⁺ Citosólico" },
+            { name: "Co-localización Lisosoma-Zimógeno" },
+            { name: "Catepsina B activa Tripsina" },
+            { name: "Necroptosis (RIPK1/MLKL) & DAMPs" },
+            { name: "TLR4 / NF-κB ➔ Tormenta IL-6 / TNF-α" },
+            { name: "Fuga Capilar Retroperitoneal Masiva" }
+          ]
+        },
+
+        // RAMA 4: HISTORIA NATURAL (LEAVELL Y CLARK)
+        {
+          name: "4. Historia Natural (Leavell)",
+          badge: "Salud Pública",
+          color: "#34d399",
+          category: "historia_natural",
+          details: {
+            title: "Historia Natural de la Pancreatitis Aguda",
+            subtitle: "Modelo Epidemiológico de Leavell y Clark",
+            oxford: "CEBM 2a",
+            citation: "Epidemiología Clínica y Prevención Multidisciplinaria",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p><strong class="text-sky-300">Período Prepatogénico:</strong> Factores de riesgo del huésped (litiasis, alcohol, dislipidemia). <em>Prevención Primaria:</em> Dieta saludable, reducción ponderal y colecistectomía profiláctica en litiasis sintomática.</p>
+                <p><strong class="text-amber-300">Período Patogénico:</strong> Fase temprana (<1 sem) dominada por SIRS y tormenta de citoquinas; fase tardía (>2 sem) dominada por CARS y riesgo de sobreinfección. <em>Prevención Secundaria:</em> Diagnóstico precoz (regla 2 de 3) y resucitación moderada con Ringer Lactato.</p>
+                <p><strong class="text-rose-300">Período Pospatogénico:</strong> Desenlaces como resolución completa (80%), insuficiencia pancreática exocrina (esteatorrea) o diabetes tipo 3c. <em>Prevención Terciaria:</em> Reemplazo con pancreatina oral y Step-Up mínimamente invasivo.</p>
+              </div>
+            `
+          },
+          children: [
+            { name: "Prepatogénico: Litiasis, Etanol & Prev. Primaria" },
+            { name: "Patogénico Temprano (<1 sem): SIRS & Fuga" },
+            { name: "Patogénico Tardío (>2 sem): CARS & Infección" },
+            { name: "Pospatogénico: IPE, Diabetes 3c & Step-Up" }
+          ]
+        },
+
+        // RAMA 5: DIAGNÓSTICO CLÍNICO & CRITERIOS
+        {
+          name: "5. Diagnóstico Clínico (2 de 3)",
+          badge: "Atlanta 2012",
+          color: "#e879f9",
+          category: "diagnostico",
+          details: {
+            title: "Criterios Diagnósticos de Atlanta",
+            subtitle: "Regla confirmatoria obligatoria (≥ 2 de los 3 criterios)",
+            oxford: "CEBM 1a",
+            citation: "Banks et al., Gut 2013; IAP/APA 2025",
+            html: `
+              <p>El diagnóstico formal de certeza requiere el cumplimiento de al menos 2 de los 3 criterios siguientes:</p>
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-2 my-2 text-xs">
+                <div><strong class="text-amber-400">1. Dolor Abdominal Típico:</strong> Epigástrico, de inicio agudo, severo, transfictivo, irradiado en cinturón al dorso (50-70%), con alivio al inclinarse hacia adelante.</div>
+                <div><strong class="text-sky-400">2. Elevación Enzimática:</strong> Lipasa sérica o amilasa ≥ 3 veces el límite superior normal. La lipasa es de elección (persiste 8-14 días con S 96% y E 99%).</div>
+                <div><strong class="text-emerald-400">3. Hallazgos en Imágenes:</strong> Evidencia de cambios característicos en ecografía, tomografía (TCCIV) o resonancia magnética.</div>
+              </div>
+              <p class="text-rose-300 text-[11px]">⚠️ <strong>Perla de Guardia:</strong> Si el paciente tiene dolor típico + lipasa ≥3x, el diagnóstico está confirmado. NO requieres tomografía urgente para iniciar el tratamiento.</p>
+            `
+          },
+          children: [
+            {
+              name: "1. Dolor Típico en Cinturón (50-70%)",
+              badge: "Clínica",
+              details: {
+                title: "Semiótica del Dolor Pancreático",
+                subtitle: "Dolor epigástrico continuo transfictivo",
+                oxford: "CEBM 1b",
+                citation: "Atlanta Consensus",
+                html: "<p>Dolor constante, opresivo, irradiado a hipocondrios y dorso, que empeora en decúbito supino y mejora en posición genupectoral o mahometana.</p>"
+              }
+            },
+            {
+              name: "2. Lipasa / Amilasa ≥ 3x LSN",
+              badge: "Laboratorio",
+              details: {
+                title: "Enzimas Pancreáticas",
+                subtitle: "Lipasa es el marcador de elección",
+                oxford: "CEBM 1a",
+                citation: "IAP/APA Guidelines 2025",
+                html: "<p>La <strong>lipasa</strong> permanece elevada 8 a 14 días y no presenta falsos positivos salivales. La magnitud del valor numérico de lipasa NO mide severidad ni pronóstico.</p>"
+              }
+            },
+            {
+              name: "3. Hallazgos en Imágenes Transversales",
+              badge: "Imagen",
+              details: {
+                title: "Criterio de Imagen",
+                subtitle: "Ecografía, Tomografía o Resonancia Magnética",
+                oxford: "CEBM 1a",
+                citation: "IAP/APA 2025 Guidelines",
+                html: "<p>Solo es indispensable para el diagnóstico si no se cumplen simultáneamente los criterios 1 y 2, o en cuadros de abdomen agudo atípico.</p>"
+              }
+            },
+            {
+              name: "Signos Hemorrágicos: Cullen, Turner, Fox",
+              badge: "Grave (1-3%)",
+              details: {
+                title: "Signos de Hemorragia Retroperitoneal",
+                subtitle: "Fuga hemorrágica fascial en pancreatitis necrosante",
+                oxford: "CEBM 2b",
+                citation: "Semiótica Quirúrgica Avanzada",
+                html: `
+                  <p>• <strong>Signo de Cullen:</strong> Equimosis periumbilical azulada por ligamento falciforme.<br>
+                  • <strong>Signo de Grey Turner:</strong> Equimosis en flancos y fosas lumbares desde espacio pararrenal.<br>
+                  • <strong>Signo de Fox:</strong> Equimosis en la cara anterior del muslo por ligamento inguinal.<br>
+                  • <strong>Signo de Bryant:</strong> Coloración azulada escrotal.</p>
+                `
+              }
+            }
+          ]
+        },
+
+        // RAMA 6: IMÁGENES Y TEMPORALIDAD
+        {
+          name: "6. Imágenes & Temporalidad",
+          badge: "72-96 Horas",
+          color: "#10b981",
+          category: "imagenes",
+          details: {
+            title: "Panel Multimodal de Imágenes",
+            subtitle: "Ventana óptima de realización y modalidades",
+            oxford: "CEBM 1a",
+            citation: "IAP/APA 2025 Guidelines; Mortele et al., AJR",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p><strong>Ecografía Abdominal (<24 horas):</strong> Obligatoria al ingreso para buscar litiasis vesicular, barro o dilatación coledociana (>6 mm). El páncreas se ve incompleto en 30-50% por gas intestinal.</p>
+                <p><strong>Tomografía con Contraste IV (72-96 horas):</strong> Es la ventana de oro. Antes de 72h <em>subestima la necrosis</em> porque la isquemia tisular requiere 3-4 días para consolidar áreas desvascularizadas.</p>
+                <p><strong>Colangiorresonancia (CPRM):</strong> De elección para evaluar integridad del conducto de Wirsung (síndrome de ducto desconectado) y litiasis oculta sin contraste yodado.</p>
+                <p><strong>Ecoendoscopía (EUS):</strong> Método más sensible para microlitiasis oculta y guía para drenaje transmural con prótesis LAMS.</p>
+              </div>
+            `
+          },
+          children: [
+            { name: "Ecografía (<24h): Descarte Biliar Obligatorio" },
+            { name: "TCCIV (72-96h): Ventana Óptima para Necrosis" },
+            { name: "mCTSI de Mortele: Índice Tomográfico (0-10 pts)" },
+            { name: "CPRM: Integridad Ductal & Ducto Desconectado" },
+            { name: "Ecoendoscopía (EUS): Guía LAMS & Microlitiasis" }
+          ]
+        },
+
+        // RAMA 7: ESCALAS PRONÓSTICAS Y MARSHALL
+        {
+          name: "7. Estratificación & Escalas",
+          badge: "Marshall / BISAP",
+          color: "#f43f5e",
+          category: "escalas",
+          details: {
+            title: "Sistemas de Puntuación Pronóstica",
+            subtitle: "Clasificación de severidad y predicción clínica",
+            oxford: "CEBM 1a",
+            citation: "Atlanta Revised Consensus • IAP/APA 2025",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p><strong class="text-rose-400">Marshall Modificado (Patrón Oro):</strong> Define fallo orgánico si puntaje ≥2 en Respiratorio (PaO₂/FiO₂ ≤300), Renal (Creatinina ≥1.9 mg/dL) o Cardiovascular (PAS <90 refractaria). Si dura <48h es <em>Moderada</em>; si dura >48h es <strong>Grave</strong>.</p>
+                <p><strong class="text-sky-400">BISAP (<24 horas):</strong> B (BUN >25), I (Glasgow <15), S (SIRS), A (Edad >60), P (Derrame pleural). Puntaje ≥3 predice alta mortalidad e ingreso a UCI.</p>
+                <p><strong class="text-emerald-400">HAPS:</strong> Sin rebote + Hematocrito normal + Creatinina normal = Curso benigno seguro (>98% VNP).</p>
+                <p><strong class="text-slate-400">Ranson (En desuso):</strong> Retraso obligado de 48h para completarse; no sirve para decisiones de guardia iniciales.</p>
+              </div>
+            `
+          },
+          children: [
+            { name: "Marshall Modificado: Corte 48h (Leve/Mod/Grave)" },
+            { name: "BISAP (<24h): BUN, Glasgow, SIRS, Edad, Pleura (≥3 pts)" },
+            { name: "Filtro HAPS: Identifica casos leves (>98% VNP)" },
+            { name: "Ranson en Desuso: Retraso obligado de 48 horas" }
+          ]
+        },
+
+        // RAMA 8: MANEJO MÉDICO & WATERFALL
+        {
+          name: "8. Manejo Médico (WATERFALL)",
+          badge: "Evidencia 1b",
+          color: "#06b6d4",
+          category: "manejo",
+          details: {
+            title: "Manejo Médico Basado en Evidencia",
+            subtitle: "Paradigma del Ensayo WATERFALL y Guías 2025/2026",
+            oxford: "CEBM 1b",
+            citation: "de-Madaria et al., NEJM 2022; IAP/APA 2025",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p><strong class="text-cyan-300">Fluidoterapia Moderada con Ringer Lactato:</strong> La infusión agresiva aumentó la sobrecarga pulmonar (20.5% vs 6.3%). Se recomienda <strong>1.5 mL/kg/h</strong> directo si normovolémico; bolo de 10 mL/kg en 2h solo si hay hipovolemia franca.</p>
+                <p><strong class="text-amber-300">Nutrición Precoz:</strong> Iniciar dieta sólida baja en grasas inmediatamente ceda el dolor en casos leves. En severos, iniciar nutrición enteral por SNG dentro de las 24-72h (superior a NPT).</p>
+                <p><strong class="text-rose-400">Antibióticos:</strong> PROHIBIDA la profilaxis rutinaria. Si se confirma necrosis infectada: <strong>Meropenem</strong> 1g IV c/8h en infusión de 3h o <strong>Piperacilina/Tazobactam</strong> 4.5g c/6h.</p>
+              </div>
+            `
+          },
+          children: [
+            {
+              name: "Fluidos: Ringer Lactato Moderado (1.5 mL/kg/h)",
+              badge: "WATERFALL",
+              details: {
+                title: "Fluidoterapia Moderada",
+                subtitle: "Ensayo WATERFALL (NEJM 2022)",
+                oxford: "CEBM 1b",
+                citation: "de-Madaria et al., NEJM",
+                html: "<p>Ringer Lactato amortigua el pH acinar y previene la acidosis hiperclorémica del NaCl 0.9%. Metas: Diuresis ≥0.5 mL/kg/h, hematocrito <44%, PAM ≥65 mmHg.</p>"
+              }
+            },
+            {
+              name: "Nutrición Enteral Precoz (<72h por SNG)",
+              badge: "Preserva Barrera",
+              details: {
+                title: "Nutrición Clínica",
+                subtitle: "Evita la atrofia de vellosidades intestinales",
+                oxford: "CEBM 1a",
+                citation: "Guías AGA 2018; IAP/APA 2025",
+                html: "<p>La sonda nasogástrica (SNG) es equivalente a la nasoyeyunal (SNY) y mucho más accesible. La nutrición parenteral total (NPT) está formalmente desaconsejada en la primera semana.</p>"
+              }
+            },
+            {
+              name: "Analgesia: Metamizol / Tramadol / Opioides",
+              badge: "Multimodal",
+              details: {
+                title: "Analgesia Escalonada",
+                subtitle: "Control prioritario del dolor visceral",
+                oxford: "CEBM 1b",
+                citation: "iLATAM-AP 2026",
+                html: "<p>Metamizol 1-2g IV c/8h o Paracetamol 1g c/6h. En dolor severo: Tramadol 50-100mg IV o Fentanilo/Morfina (el mito del espasmo de Oddi carece de impacto clínico).</p>"
+              }
+            },
+            {
+              name: "Antibióticos: Solo en Infección (Meropenem)",
+              badge: "PROHIBIDA Profilaxis",
+              details: {
+                title: "Manejo Antimicrobiano Racional",
+                subtitle: "Meropenem 1g c/8h en infusión de 3 horas",
+                oxford: "CEBM 1a",
+                citation: "IAP/APA 2025 Guidelines",
+                html: "<p>Penetración tisular pancreática comprobada. En alergia severa a penicilinas: Ciprofloxacino 400mg c/12h + Metronidazol 500mg c/8h, o Aztreonam.</p>"
+              }
+            }
+          ]
+        },
+
+        // RAMA 9: COLECCIONES Y STEP-UP APPROACH
+        {
+          name: "9. Colecciones & Step-Up Approach",
+          badge: "Ensayo PANTER",
+          color: "#eab308",
+          category: "cirugia",
+          details: {
+            title: "Nomenclatura de Colecciones y Abordaje Escalonado",
+            subtitle: "Ensayo PANTER y Guías IAP/APA 2025",
+            oxford: "CEBM 1a",
+            citation: "van Santvoort et al., NEJM 2010; IAP/APA 2025",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p><strong>Clasificación temporal (<4 sem vs >4 sem):</strong></p>
+                <p>• <em>< 4 semanas:</em> APFC (líquido seroso puro) vs ANC (colección necrótica heterogénea).</p>
+                <p>• <em>> 4 semanas (con pared):</em> Pseudoquiste (solo líquido) vs WON (necrosis encapsulada semisólida).</p>
+                <p><strong class="text-amber-300">El Step-Up Approach (Abordaje Escalonado):</strong></p>
+                <p>• <strong>Paso 1:</strong> Drenaje percutáneo o transgástrico con EUS/LAMS (resuelve el 35-45% de casos sin cirugía).</p>
+                <p>• <strong>Paso 2:</strong> Necrosectomía mínimamente invasiva (VARD o endoscópica directa) si no hay mejoría en 72h.</p>
+                <p>• <strong>Paso 3:</strong> Cirugía abierta solo como último recurso.</p>
+              </div>
+            `
+          },
+          children: [
+            { name: "Agudas (<4 sem): APFC (líquida) vs ANC (necrótica)" },
+            { name: "Crónicas (>4 sem): Pseudoquiste vs WON (amurallada)" },
+            { name: "Paso 1: Drenaje Percutáneo o EUS Transmural LAMS" },
+            { name: "Paso 2: Necrosectomía VARD o Endoscópica Directa" },
+            { name: "Paso 3: Laparotomía Abierta (Último Recurso)" }
+          ]
+        },
+
+        // RAMA 10: CONSENSOS IAP/APA 2025 & iLATAM 2026
+        {
+          name: "10. Consensos 2025-2026",
+          badge: "iLATAM / IAP",
+          color: "#ec4899",
+          category: "consensos",
+          details: {
+            title: "Actualizaciones de Consensos IAP/APA 2025 & iLATAM-AP 2026",
+            subtitle: "Recomendaciones contemporáneas clave de alto impacto",
+            oxford: "CEBM 1a",
+            citation: "Pancreatology 2025; United European Gastroenterol J 2026",
+            html: `
+              <div class="space-y-2 text-slate-300">
+                <p>• <strong class="text-rose-400">CPRE de Urgencia (<24h):</strong> Solo indicada formalmente si coexiste <strong>Colangitis Aguda</strong> o ictericia obstructiva progresiva con cálculo impactado. NO realizar de rutina en PA biliar sin colangitis.</p>
+                <p>• <strong class="text-emerald-400">Momento de Colecistectomía:</strong> En PA biliar leve, realizar colecistectomía laparoscópica <strong>en el mismo ingreso antes del alta</strong>. En PA grave/necrosante, diferir hasta resolución de colecciones (>6 semanas).</p>
+                <p>• <strong class="text-sky-400">Monitoreo de PIA (Presión Intraabdominal):</strong> Obligatorio en pacientes graves en UCI; HIA si PIA ≥12 mmHg; Síndrome Compartimental si PIA >20 mmHg con nueva falla de órganos.</p>
+                <p>• <strong class="text-amber-400">Trombosis Esplácnica:</strong> Tromboprofilaxis con HBPM mandatoria. Anticoagulación completa si se extiende a vena porta o mesentérica.</p>
+                <p>• <strong class="text-purple-400">Seguimiento Funcional:</strong> Tamizaje de insuficiencia pancreática exocrina (Elastasa fecal-1 <200 µg/g) a los 3 meses y glucosa semestral (Diabetes 3c).</p>
+              </div>
+            `
+          },
+          children: [
+            { name: "CPRE Urgente (<24h): Solo ante Colangitis Concurrente" },
+            { name: "Colecistectomía: Mismo Ingreso en Leve vs Diferida en Necrosis" },
+            { name: "Monitoreo de PIA: HIA ≥12 mmHg vs SCA >20 mmHg" },
+            { name: "Tromboprofilaxis HBPM & Manejo de Trombosis Esplénica" },
+            { name: "Seguimiento Post-Alta: Elastasa Fecal-1 & Diabetes 3c" }
+          ]
+        }
+      ]
+    };
+
+    // D3 Interactive Tree Implementation
+    let svg, g, root, treeLayout, zoom;
+    let i = 0;
+    const duration = 500;
+    const container = document.getElementById('mindmap-container');
+    let width = container.clientWidth;
+    let height = container.clientHeight;
+
+    function initD3Tree() {
+      svg = d3.select("#mindmap-svg")
+        .attr("width", width)
+        .attr("height", height);
+
+      // Define drop shadow filters and gradients
+      const defs = svg.append("defs");
+      
+      const filter = defs.append("filter")
+        .attr("id", "glow")
+        .attr("x", "-20%")
+        .attr("y", "-20%")
+        .attr("width", "140%")
+        .attr("height", "140%");
+      filter.append("feGaussianBlur").attr("stdDeviation", "3").attr("result", "blur");
+      filter.append("feComposite").attr("in", "SourceGraphic").attr("in2", "blur").attr("operator", "over");
+
+      g = svg.append("g").attr("class", "main-group");
+
+      // Zoom behavior
+      zoom = d3.zoom()
+        .scaleExtent([0.15, 3.5])
+        .on("zoom", (event) => {
+          g.attr("transform", event.transform);
+        });
+
+      svg.call(zoom);
+
+      // Horizontal tree layout
+      treeLayout = d3.tree().nodeSize([38, 260]);
+
+      root = d3.hierarchy(mindmapData, d => d.children);
+      root.x0 = height / 2;
+      root.y0 = 60;
+
+      // Collapse all nodes initially beyond Level 1
+      if (root.children) {
+        root.children.forEach(collapseNode);
+      }
+
+      update(root);
+      resetZoom();
+    }
+
+    function collapseNode(d) {
+      if (d.children) {
+        d._children = d.children;
+        d._children.forEach(collapseNode);
+        d.children = null;
+      }
+    }
+
+    function expandNode(d) {
+      if (d._children) {
+        d.children = d._children;
+        d.children.forEach(expandNode);
+        d._children = null;
+      }
+    }
+
+    function update(source) {
+      const treeData = treeLayout(root);
+      const nodes = treeData.descendants();
+      const links = treeData.links();
+
+      // Normalize depth separation
+      nodes.forEach(d => {
+        d.y = d.depth * 250 + 60;
+      });
+
+      // ****************** Nodes Section ******************
+      const node = g.selectAll('g.node')
+        .data(nodes, d => d.id || (d.id = ++i));
+
+      // Enter any new nodes at the parent's previous position.
+      const nodeEnter = node.enter().append('g')
+        .attr('class', 'node')
+        .attr("transform", d => `translate(${source.y0},${source.x0})`)
+        .on('click', (event, d) => {
+          // Toggle children on click
+          if (d.children) {
+            d._children = d.children;
+            d.children = null;
+          } else if (d._children) {
+            d.children = d._children;
+            d._children = null;
+          }
+          update(d);
+          openDrawer(d.data);
+        });
+
+      // Circle node glyph
+      nodeEnter.append('circle')
+        .attr('class', 'node-circle')
+        .attr('r', 1e-6)
+        .style("fill", d => d._children ? (d.data.color || "#f59e0b") : (d.data.children || d._children ? "#0b1329" : "#1e293b"))
+        .style("stroke", d => d.data.color || (d.parent ? d.parent.data.color : "#f59e0b"))
+        .style("stroke-width", d => d.depth === 0 ? "4px" : "2.5px")
+        .style("filter", d => d.depth === 0 ? "url(#glow)" : "none");
+
+      // Small badge indicator on nodes with collapsed children
+      nodeEnter.append('circle')
+        .attr('class', 'expand-indicator')
+        .attr('r', d => d._children ? 3.5 : 0)
+        .attr('cx', 0)
+        .attr('cy', 0)
+        .style("fill", "#ffffff")
+        .style("pointer-events", "none");
+
+      // Label text
+      nodeEnter.append('text')
+        .attr("dy", ".35em")
+        .attr("x", d => d.children || d._children ? -14 : 14)
+        .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+        .text(d => d.data.name)
+        .style("font-size", d => d.depth === 0 ? "14px" : (d.depth === 1 ? "12px" : "11px"))
+        .style("font-weight", d => d.depth <= 1 ? "700" : "500")
+        .style("fill", d => d.depth === 0 ? "#ffffff" : (d.depth === 1 ? "#f8fafc" : "#cbd5e1"))
+        .style('fill-opacity', 1e-6);
+
+      // Pill badge for special nodes
+      nodeEnter.filter(d => d.data.badge)
+        .append('text')
+        .attr("class", "node-badge")
+        .attr("dy", "-1.1em")
+        .attr("x", d => d.children || d._children ? -14 : 14)
+        .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+        .text(d => `[${d.data.badge}]`)
+        .style("font-size", "9px")
+        .style("font-family", "JetBrains Mono, monospace")
+        .style("font-weight", "600")
+        .style("fill", d => d.data.color || "#f59e0b")
+        .style("opacity", 0.9);
+
+      // UPDATE node elements to active position
+      const nodeUpdate = nodeEnter.merge(node);
+
+      nodeUpdate.transition()
+        .duration(duration)
+        .attr("transform", d => `translate(${d.y},${d.x})`);
+
+      nodeUpdate.select('circle.node-circle')
+        .attr('r', d => d.depth === 0 ? 11 : (d.depth === 1 ? 7.5 : 5.5))
+        .style("fill", d => d._children ? (d.data.color || "#f59e0b") : "#090d16")
+        .style("stroke", d => d.data.color || (d.parent ? d.parent.data.color : "#f59e0b"))
+        .style("stroke-width", d => d.depth === 0 ? "4px" : "2.5px");
+
+      nodeUpdate.select('circle.expand-indicator')
+        .attr('r', d => d._children ? 2.5 : 0);
+
+      nodeUpdate.select('text')
+        .style('fill-opacity', 1);
+
+      // REMOVE exiting nodes
+      const nodeExit = node.exit().transition()
+        .duration(duration)
+        .attr("transform", d => `translate(${source.y},${source.x})`)
+        .remove();
+
+      nodeExit.select('circle')
+        .attr('r', 1e-6);
+
+      nodeExit.select('text')
+        .style('fill-opacity', 1e-6);
+
+      // ****************** Links Section ******************
+      const link = g.selectAll('path.link')
+        .data(links, d => d.target.id);
+
+      // Enter new links at the parent's previous position.
+      const linkEnter = link.enter().insert('path', "g")
+        .attr("class", "link")
+        .attr('d', d => {
+          const o = {x: source.x0, y: source.y0};
+          return diagonal(o, o);
+        })
+        .style("stroke", d => d.target.data.color || (d.source.data.color || "#334155"));
+
+      // UPDATE links
+      const linkUpdate = linkEnter.merge(link);
+
+      linkUpdate.transition()
+        .duration(duration)
+        .attr('d', d => diagonal(d.source, d.target))
+        .style("stroke", d => d.target.data.color || (d.source.data.color || "#475569"));
+
+      // REMOVE exiting links
+      link.exit().transition()
+        .duration(duration)
+        .attr('d', d => {
+          const o = {x: source.x, y: source.y};
+          return diagonal(o, o);
+        })
+        .remove();
+
+      // Store the old positions for transition.
+      nodes.forEach(d => {
+        d.x0 = d.x;
+        d.y0 = d.y;
+      });
+    }
+
+    // Creates a curved horizontal bezier path between nodes
+    function diagonal(s, d) {
+      return `M ${s.y} ${s.x}
+              C ${(s.y + d.y) / 2} ${s.x},
+                ${(s.y + d.y) / 2} ${d.x},
+                ${d.y} ${d.x}`;
+    }
+
+    // Search functionality
+    function handleSearch(query) {
+      const q = query.trim().toLowerCase();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      const statusBadge = document.getElementById('statusBadge');
+      
+      if (!q) {
+        clearBtn.classList.add('hidden');
+        d3.selectAll('.node text').style('fill', d => d.depth === 0 ? "#ffffff" : (d.depth === 1 ? "#f8fafc" : "#cbd5e1"));
+        d3.selectAll('.node-circle').style('stroke-width', d => d.depth === 0 ? "4px" : "2.5px");
+        statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>Explora haciendo clic en los nodos.</span>`;
+        return;
+      }
+
+      clearBtn.classList.remove('hidden');
+
+      // Expand all nodes to allow full search
+      expandAllNodes();
+
+      let matchCount = 0;
+      let firstMatch = null;
+
+      d3.selectAll('.node').each(function(d) {
+        const nameMatch = d.data.name && d.data.name.toLowerCase().includes(q);
+        const detailMatch = d.data.details && (
+          (d.data.details.title && d.data.details.title.toLowerCase().includes(q)) ||
+          (d.data.details.subtitle && d.data.details.subtitle.toLowerCase().includes(q)) ||
+          (d.data.details.html && d.data.details.html.toLowerCase().includes(q))
+        );
+
+        const isMatch = nameMatch || detailMatch;
+        const textNode = d3.select(this).select('text');
+        const circleNode = d3.select(this).select('.node-circle');
+
+        if (isMatch) {
+          matchCount++;
+          if (!firstMatch) firstMatch = d;
+          textNode.style('fill', '#f59e0b').style('font-weight', 'bold');
+          circleNode.style('stroke', '#f59e0b').style('stroke-width', '4px');
+        } else {
+          textNode.style('fill', '#475569').style('font-weight', 'normal');
+          circleNode.style('stroke', '#334155').style('stroke-width', '1.5px');
+        }
+      });
+
+      statusBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span><span>Resultados encontrados: <strong>${matchCount}</strong> ${matchCount > 0 ? '(Nodos resaltados en dorado)' : ''}</span>`;
+
+      // Zoom towards first match
+      if (firstMatch) {
+        svg.transition().duration(600).call(
+          zoom.transform,
+          d3.zoomIdentity.translate(width / 3 - firstMatch.y, height / 2 - firstMatch.x).scale(1.1)
+        );
+      }
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('searchInput');
+      input.value = '';
+      handleSearch('');
+    }
+
+    // Detail Inspector Drawer
+    function openDrawer(data) {
+      const drawer = document.getElementById('detailDrawer');
+      const title = document.getElementById('drawerTitle');
+      const subtitle = document.getElementById('drawerSubtitle');
+      const content = document.getElementById('drawerContent');
+      const badge = document.getElementById('drawerBadge');
+      const oxford = document.getElementById('drawerOxford');
+      const citation = document.getElementById('drawerCitationText');
+      const peruDiv = document.getElementById('drawerPeruDose');
+      const peruText = document.getElementById('drawerPeruText');
+
+      if (data.details) {
+        title.innerText = data.details.title || data.name;
+        subtitle.innerText = data.details.subtitle || "Concepto Clínico de Pancreatitis Aguda";
+        badge.innerText = data.badge || "Clínica";
+        oxford.innerText = data.details.oxford || "CEBM 1a";
+        content.innerHTML = data.details.html || `<p>${data.name}</p>`;
+        citation.innerText = data.details.citation || "Consenso Internacional de Atlanta / IAP-APA 2025";
+      } else {
+        title.innerText = data.name;
+        subtitle.innerText = "Subtema Jerárquico";
+        badge.innerText = data.badge || "Subnodo";
+        oxford.innerText = "CEBM 1b";
+        content.innerHTML = `<p class="text-slate-300">Detalle clínico integrado para: <strong>${data.name}</strong>. Aplica el manejo guiado por objetivos según las guías vigentes IAP/APA 2025 e iLATAM-AP 2026.</p>`;
+        citation.innerText = "IAP/APA Guidelines 2025 • Guías iLATAM-AP 2026";
+      }
+
+      // Special Peru pharmacology note if matching antibiotic or analgesics
+      const lower = (data.name + " " + (data.details ? data.details.title : "")).toLowerCase();
+      if (lower.includes("meropenem") || lower.includes("antibiótico") || lower.includes("piperacilina")) {
+        peruDiv.classList.remove('hidden');
+        peruText.innerHTML = "• <strong>Meropenem:</strong> Vial liofilizado 500 mg y 1 g (EsSalud/MINSA). Infusión extendida de 3 horas.<br>• <strong>Piperacilina/Tazobactam:</strong> Vial 4.5 g (4g/0.5g).";
+      } else if (lower.includes("analgesia") || lower.includes("metamizol") || lower.includes("tramadol")) {
+        peruDiv.classList.remove('hidden');
+        peruText.innerHTML = "• <strong>Metamizol (Dipirona):</strong> Ampolla 1 g / 2 mL (Antalgina, Repriman).<br>• <strong>Tramadol Clorhidrato:</strong> Ampolla 50 mg/1 mL y 100 mg/2 mL.<br>• <strong>Paracetamol:</strong> Frasco perfusión 1 g / 100 mL.";
+      } else {
+        peruDiv.classList.add('hidden');
+      }
+
+      drawer.classList.remove('translate-x-full');
+    }
+
+    function closeDrawer() {
+      document.getElementById('detailDrawer').classList.add('translate-x-full');
+    }
+
+    // Zoom and Navigation Helpers
+    function zoomStep(factor) {
+      svg.transition().duration(300).call(zoom.scaleBy, factor);
+    }
+
+    function resetZoom() {
+      svg.transition().duration(500).call(
+        zoom.transform,
+        d3.zoomIdentity.translate(80, height / 2).scale(0.85)
+      );
+    }
+
+    function collapseToLevel(targetLevel) {
+      function traverse(node, currentLevel) {
+        if (currentLevel >= targetLevel) {
+          collapseNode(node);
+        } else {
+          if (node._children) {
+            node.children = node._children;
+            node._children = null;
+          }
+          if (node.children) {
+            node.children.forEach(c => traverse(c, currentLevel + 1));
+          }
+        }
+      }
+      traverse(root, 0);
+      update(root);
+      resetZoom();
+    }
+
+    function expandAllNodes() {
+      expandNode(root);
+      update(root);
+    }
+
+    // Markmap Markdown export generator
+    function generateMarkmapMD() {
+      function nodeToMD(node, depth) {
+        let prefix = "  ".repeat(depth) + "- ";
+        if (depth === 0) {
+          prefix = "# ";
+        } else if (depth === 1) {
+          prefix = "## ";
+        }
+
+        let line = `${prefix}${node.name}`;
+        if (node.badge) {
+          line += ` \`[${node.badge}]\``;
+        }
+
+        let result = line + "\n";
+        const children = node.children || node._children;
+        if (children && children.length > 0) {
+          children.forEach(c => {
+            result += nodeToMD(c, depth + 1);
+          });
+        }
+        return result;
+      }
+      return nodeToMD(mindmapData, 0);
+    }
+
+    function openMarkmapModal() {
+      const codeArea = document.getElementById('markmapCodeArea');
+      codeArea.innerText = generateMarkmapMD();
+      document.getElementById('markmapModal').classList.remove('hidden');
+    }
+
+    function closeMarkmapModal() {
+      document.getElementById('markmapModal').classList.add('hidden');
+    }
+
+    function copyMarkmapCode() {
+      const text = document.getElementById('markmapCodeArea').innerText;
+      const dummy = document.createElement('textarea');
+      dummy.value = text;
+      document.body.appendChild(dummy);
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+
+      const toast = document.getElementById('copyToast');
+      toast.classList.remove('opacity-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0');
+      }, 2500);
+    }
+
+    // Keyboard shortcuts: ESC to close drawers/modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDrawer();
+        closeMarkmapModal();
+      }
+    });
+
+    // Resize handler for responsive SVG canvas
+    window.addEventListener('resize', () => {
+      width = container.clientWidth;
+      height = container.clientHeight;
+      svg.attr("width", width).attr("height", height);
+    });
+
+    // Window load trigger
+    window.onload = function() {
+      initD3Tree();
+    };
+  </script>
+</body>
+</html>
